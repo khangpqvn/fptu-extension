@@ -82,6 +82,24 @@ Scripts are trusted local code with access to the active page. Add only JavaScri
 - **activeTab** — grants temporary access to the current tab after the extension is invoked
 - **scripting** — provides `chrome.scripting.executeScript`
 
+## Extension icons
+
+The extension includes generated PNG icons in `src/icons/`:
+
+- `icon16.png` — compact toolbar size
+- `icon32.png` — high-density toolbar size
+- `icon48.png` — extension management page
+- `icon128.png` — Chrome Web Store extension icon
+- `icon512.png` — Chrome Web Store listing image
+
+The first four sizes are configured in `src/manifest.json`. The `icon512.png` file is included as the larger store asset.
+
+Regenerate all icon sizes after changing the master SVG:
+
+```bash
+node scripts/generate-icons.js
+```
+
 ## Build
 
 ```bash
