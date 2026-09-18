@@ -1,0 +1,7 @@
+{
+  "id": "log-images",
+  "key": "2",
+  "name": "Log all images",
+  "description": "Print image URLs to the page console.",
+  "icon": "🖼️"
+}

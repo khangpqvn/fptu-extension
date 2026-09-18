@@ -1,0 +1,7 @@
+{
+  "id": "log-current-domain",
+  "key": "d",
+  "name": "Log current domain",
+  "description": "Print the active page hostname to the page console.",
+  "icon": "🌐"
+}

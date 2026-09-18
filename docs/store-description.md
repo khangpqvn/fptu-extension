@@ -1,35 +1,86 @@
 # Domain Shortcuts
 
-Execute custom JavaScript snippets on any website, scoped per domain. Press the extension icon, see only the shortcuts that match the current site, and run them instantly.
+Run reusable JavaScript shortcuts on the active browser tab. Routes select buttons by both hostname and endpoint, while every button keeps its metadata, icon, and executable code in a dedicated folder.
 
 ## Features
 
-- **Domain-aware**: automatically detects the current hostname and shows only relevant shortcuts
-- **Custom JS per action**: write any JavaScript that runs in the page context
-- **Keyboard-driven**: each action maps to a single key for fast execution
-- **Easy to extend**: edit `config.json` to add new domains and actions — no code changes needed
-- **Privacy-first**: all data stays local; no telemetry, no network requests
+- **Domain and endpoint matching**: match the active hostname plus pathname
+- **Glob endpoints**: use exact paths such as `/courses` or patterns such as `/courses/*`
+- **Composable routes**: all matching routes are merged and duplicate actions are removed
+- **Folder-based actions**: each button owns an `action.json`, `script.js`, and optional icon asset
+- **Page-context execution**: packaged scripts execute in the active page after a button click
+- **Local configuration**: no telemetry or remote service is required
 
-## How to add a domain
+## Route configuration
 
-Open `config.json` and add an entry under `domains`:
+`src/config.json` only maps URL rules to action folder IDs:
 
 ```json
-"mydomain.com": {
-  "label": "My Site",
-  "actions": [
-    { "key": "1", "name": "Do something", "js": "document.body.style.background = 'blue';" }
+{
+  "routes": [
+    {
+      "domain": "abc.com",
+      "endpoint": "/courses/*",
+      "actions": ["highlight-links", "copy-course-name"]
+    },
+    {
+      "domain": "*",
+      "endpoint": "*",
+      "actions": ["log-current-domain"]
+    }
   ]
 }
 ```
 
-Use `"*"` under `domains` for actions that apply to every site (defined in `defaultActions`).
+Matching rules:
+
+- A leading `www.` is removed before domain comparison.
+- `domain: "*"` matches every HTTP or HTTPS hostname.
+- Endpoints match `URL.pathname`; query strings and hashes are ignored.
+- `endpoint: "*"` matches every pathname.
+- `*` inside an endpoint glob matches characters within one pathname segment. For example, `/courses/*` matches `/courses/123` but not `/courses/123/lessons`.
+- Trailing slashes are normalized away before matching.
+- All matching routes contribute actions in config order. Repeated action IDs and repeated keyboard keys are shown once.
+
+## Action folder template
+
+Each action lives under `src/actions/<action-id>/`:
+
+```text
+src/actions/highlight-links/
+├── action.json
+├── script.js
+└── icon.svg          # optional
+```
+
+`action.json` defines display metadata:
+
+```json
+{
+  "id": "highlight-links",
+  "key": "1",
+  "name": "Highlight links",
+  "description": "Draw an outline around every link.",
+  "icon": "icon.svg"
+}
+```
+
+`icon` can be an emoji/text value or a local image filename such as `icon.svg`. `script.js` contains the code injected into the active tab:
+
+```js
+document.querySelectorAll('a').forEach((element) => {
+  element.style.outline = '2px solid red';
+});
+```
+
+The action ID, folder name, and `action.json` `id` must match. Action folder IDs use lowercase kebab-case.
+
+Scripts are trusted local code with access to the active page. Add only JavaScript you understand.
 
 ## Permissions
 
-- **activeTab** — inject scripts only when you click the extension
-- **scripting** — execute JS in the active tab
-- **<all_urls>** — required to match all sites for domain detection
+- **activeTab** — grants temporary access to the current tab after the extension is invoked
+- **scripting** — provides `chrome.scripting.executeScript`
 
 ## Build
 
@@ -37,4 +88,4 @@ Use `"*"` under `domains` for actions that apply to every site (defined in `defa
 node build.js
 ```
 
-Output: `dist/extension.zip` — ready for Chrome Web Store upload.
+Output: `dist/domain-shortcuts.zip`.

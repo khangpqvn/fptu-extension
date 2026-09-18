@@ -1,0 +1,7 @@
+{
+  "id": "highlight-links",
+  "key": "1",
+  "name": "Highlight all links",
+  "description": "Draw a red outline around every link on the page.",
+  "icon": "🔗"
+}
