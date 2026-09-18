@@ -1,0 +1,5 @@
+{"ts":"2026-09-18T17:42:54.221Z","hook":"session-init","event":"SessionStart","tool":"","target":"","note":"startup","dur":332,"status":"ok","exit":0,"error":""}
+{"ts":"2026-09-18T17:42:55.003Z","hook":"usage-quota-cache-refresh","event":"UserPromptSubmit","tool":"","target":"","note":"throttled","dur":2,"status":"skip","exit":0,"error":""}
+{"ts":"2026-09-18T17:42:55.075Z","hook":"secret-output-guardrail","event":"UserPromptSubmit","tool":"","target":"","note":"triggered","dur":84,"status":"ok","exit":0,"error":""}
+{"ts":"2026-09-18T17:42:55.158Z","hook":"dev-rules-reminder","event":"UserPromptSubmit","tool":"","target":"","note":"recently-injected","dur":83,"status":"skip","exit":0,"error":""}
+{"ts":"2026-09-18T17:43:01.071Z","hook":"usage-quota-cache-refresh","event":"Stop","tool":"","target":"","note":"throttled","dur":0,"status":"skip","exit":0,"error":""}
