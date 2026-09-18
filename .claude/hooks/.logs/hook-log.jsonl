@@ -224,3 +224,8 @@
 {"ts":"2026-09-18T18:39:42.996Z","hook":"usage-quota-cache-refresh","event":"PostToolUse","tool":"Read","target":"","note":"throttled","dur":1,"status":"skip","exit":0,"error":""}
 {"ts":"2026-09-18T18:39:43.015Z","hook":"usage-quota-cache-refresh","event":"PostToolUse","tool":"Glob","target":"","note":"throttled","dur":1,"status":"skip","exit":0,"error":""}
 {"ts":"2026-09-18T18:40:38.580Z","hook":"usage-quota-cache-refresh","event":"Stop","tool":"","target":"","note":"throttled","dur":1,"status":"skip","exit":0,"error":""}
+{"ts":"2026-09-18T18:46:18.465Z","hook":"session-init","event":"SessionStart","tool":"","target":"","note":"startup","dur":181,"status":"ok","exit":0,"error":""}
+{"ts":"2026-09-18T18:46:19.480Z","hook":"usage-quota-cache-refresh","event":"UserPromptSubmit","tool":"","target":"","note":"throttled","dur":2,"status":"skip","exit":0,"error":""}
+{"ts":"2026-09-18T18:46:19.568Z","hook":"secret-output-guardrail","event":"UserPromptSubmit","tool":"","target":"","note":"triggered","dur":89,"status":"ok","exit":0,"error":""}
+{"ts":"2026-09-18T18:46:19.654Z","hook":"dev-rules-reminder","event":"UserPromptSubmit","tool":"","target":"","note":"recently-injected","dur":93,"status":"skip","exit":0,"error":""}
+{"ts":"2026-09-18T18:46:24.818Z","hook":"usage-quota-cache-refresh","event":"Stop","tool":"","target":"","note":"throttled","dur":1,"status":"skip","exit":0,"error":""}
