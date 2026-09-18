@@ -1,0 +1,36 @@
+{
+  "domains": {
+    "example.com": {
+      "label": "Example Domain",
+      "actions": [
+        {
+          "key": "1",
+          "name": "Highlight all links",
+          "js": "document.querySelectorAll('a').forEach(el => el.style.outline = '2px solid red');"
+        },
+        {
+          "key": "2",
+          "name": "Log all images",
+          "js": "console.log('Images:', Array.from(document.images).map(img => img.src));"
+        }
+      ]
+    },
+    "github.com": {
+      "label": "GitHub",
+      "actions": [
+        {
+          "key": "1",
+          "name": "Log repo name",
+          "js": "const name = document.querySelector('.repohead h1 span'); console.log(name ? name.innerText : 'not a repo page');"
+        }
+      ]
+    }
+  },
+  "defaultActions": [
+    {
+      "key": "d",
+      "name": "Log current domain",
+      "js": "console.log('Current domain:', location.hostname);"
+    }
+  ]
+}
