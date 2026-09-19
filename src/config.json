@@ -1,19 +1,23 @@
 {
   "routes": [
     {
-      "domain": "example.com",
-      "endpoint": "*",
-      "actions": ["highlight-links", "log-images", "auto-dom-modifier"]
-    },
-    {
-      "domain": "github.com",
-      "endpoint": "*",
-      "actions": ["log-repository-name"]
-    },
-    {
       "domain": "*",
       "endpoint": "*",
-      "actions": ["log-current-domain", "log-images"]
+      "actions": []
+    },
+    {
+      "domain": "fap.fpt.edu.vn",
+      "endpoint": "/Attendance/EditAttendance.aspx",
+      "actions": [
+        "fap-attendance"
+      ]
+    },
+    {
+      "domain": "fap.fpt.edu.vn",
+      "endpoint": "/Attendance/AddAttendance.aspx",
+      "actions": [
+        "fap-attendance"
+      ]
     }
   ]
 }
