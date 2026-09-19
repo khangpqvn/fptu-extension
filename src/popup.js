@@ -179,12 +179,16 @@ function createActionButton(action, tabId) {
     status.textContent = 'Running…';
 
     try {
-      await chrome.scripting.executeScript({
-        target: { tabId },
-        world: 'MAIN',
-        files: [action.scriptPath],
+      const response = await chrome.runtime.sendMessage({
+        type: 'executeAction',
+        actionId: action.folder,
+        tabId,
       });
-      window.close();
+      if (response?.success) {
+        window.close();
+      } else {
+        throw new Error(response?.error || 'Unknown error');
+      }
     } catch (error) {
       document.querySelectorAll('.shortcut').forEach((item) => {
         item.disabled = false;

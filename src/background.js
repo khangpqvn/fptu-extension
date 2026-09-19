@@ -1,9 +1,16 @@
-chrome.runtime.onMessage.addListener((msg, sender) => {
-  if (!msg || msg.type !== 'autoRun' || typeof msg.actionId !== 'string') {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (!msg || typeof msg.actionId !== 'string') {
     return;
   }
 
-  const tabId = sender?.tab?.id;
+  const isAutoRun = msg.type === 'autoRun';
+  const isExecute = msg.type === 'executeAction' && typeof msg.tabId === 'number';
+
+  if (!isAutoRun && !isExecute) {
+    return;
+  }
+
+  const tabId = isAutoRun ? sender?.tab?.id : msg.tabId;
   if (!tabId) {
     return;
   }
@@ -16,11 +23,12 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
     },
     () => {
       if (chrome.runtime.lastError) {
-        console.error(
-          `[Domain Shortcuts] auto-run injection failed for "${msg.actionId}":`,
-          chrome.runtime.lastError.message,
-        );
+        sendResponse({ success: false, error: chrome.runtime.lastError.message });
+      } else {
+        sendResponse({ success: true });
       }
     },
   );
+
+  return true;
 });
