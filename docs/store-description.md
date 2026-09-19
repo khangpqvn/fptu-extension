@@ -79,8 +79,9 @@ Scripts are trusted local code with access to the active page. Add only JavaScri
 
 ## Permissions
 
-- **activeTab** — grants temporary access to the current tab after the extension is invoked
-- **scripting** — provides `chrome.scripting.executeScript`
+- **activeTab** — grants temporary access to the current tab when the extension popup is opened
+- **scripting** — provides `chrome.scripting.executeScript` to inject scripts
+- **<all_urls>** (host_permissions) — ensures script injection permissions across configured domains
 
 ## Extension icons
 

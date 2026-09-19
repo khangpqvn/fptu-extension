@@ -7,13 +7,13 @@
     },
     {
       "domain": "github.com",
-      "endpoint": "/",
+      "endpoint": "*",
       "actions": ["log-repository-name"]
     },
     {
       "domain": "*",
       "endpoint": "*",
-      "actions": ["log-current-domain"]
+      "actions": ["log-current-domain", "log-images"]
     }
   ]
 }

@@ -83,7 +83,9 @@ function getActionPath(actionId, fileName) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(actionId)) {
     throw new Error(`Invalid action folder: ${actionId}`);
   }
-  if (fileName !== 'action.json' && !/^[a-z0-9][a-z0-9._-]*\.(?:svg|png|jpe?g|webp)$/i.test(fileName)) {
+  const isActionFile = fileName === 'action.json' || fileName === 'script.js';
+  const isIconFile = /^[a-z0-9][a-z0-9._-]*\.(?:svg|png|jpe?g|webp)$/i.test(fileName);
+  if (!isActionFile && !isIconFile) {
     throw new Error(`Invalid action asset: ${fileName}`);
   }
 
@@ -110,10 +112,18 @@ async function loadAction(actionId) {
     getActionPath(actionId, metadata.icon);
   }
 
+  const scriptPath = getActionPath(actionId, 'script.js');
+  const scriptResponse = await fetch(chrome.runtime.getURL(scriptPath));
+  if (!scriptResponse.ok) {
+    throw new Error(`Could not load ${scriptPath} (${scriptResponse.status}).`);
+  }
+  const code = await scriptResponse.text();
+
   return {
     ...metadata,
     folder: actionId,
-    scriptPath: getActionPath(actionId, 'script.js'),
+    scriptPath,
+    code,
   };
 }
 
@@ -168,18 +178,37 @@ function createActionButton(action, tabId) {
     });
     status.textContent = 'Running…';
 
+    const runner = (source) => {
+      try {
+        (0, eval)(source);
+      } catch (e) {
+        console.error('Shortcut execution error:', e);
+      }
+    };
+
     try {
       await chrome.scripting.executeScript({
         target: { tabId },
         world: 'MAIN',
-        files: [action.scriptPath],
+        func: runner,
+        args: [action.code],
       });
       window.close();
-    } catch (error) {
-      document.querySelectorAll('.shortcut').forEach((item) => {
-        item.disabled = false;
-      });
-      status.textContent = `Could not run shortcut: ${error.message}`;
+    } catch (mainError) {
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId },
+          func: runner,
+          args: [action.code],
+        });
+        window.close();
+      } catch (error) {
+        document.querySelectorAll('.shortcut').forEach((item) => {
+          item.disabled = false;
+        });
+        console.error('Execution failed:', { mainError, error });
+        status.textContent = `Could not run shortcut: ${error.message}`;
+      }
     }
   });
 
