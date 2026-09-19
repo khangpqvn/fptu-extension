@@ -1,8 +1,8 @@
 /**
  * auto-run.js — Content script that auto-executes actions marked with
  * "auto": true when the current page matches their configured route.
- * Runs at document_idle in the ISOLATED world, then injects each
- * matching action's script.js into the MAIN world via a <script> tag.
+ * Runs at document_idle, matches routes, then asks the background
+ * service worker to inject each script via chrome.scripting.executeScript.
  */
 (function autoRun() {
   'use strict';
@@ -53,19 +53,6 @@
     return meta;
   }
 
-  function injectScript(actionId) {
-    const scriptUrl = chrome.runtime.getURL(`actions/${actionId}/script.js`);
-    const el = document.createElement('script');
-    el.src = scriptUrl;
-    el.dataset.autoAction = actionId;
-    el.onload = () => el.remove();
-    el.onerror = () => {
-      console.error(`[Domain Shortcuts] Failed to inject auto-run script: ${actionId}`);
-      el.remove();
-    };
-    (document.head || document.documentElement).appendChild(el);
-  }
-
   async function run() {
     try {
       const config = await loadConfig();
@@ -90,7 +77,7 @@
         try {
           const meta = await loadActionMeta(id);
           if (meta) {
-            injectScript(id);
+            chrome.runtime.sendMessage({ type: 'autoRun', actionId: id });
           }
         } catch (err) {
           console.error(`[Domain Shortcuts] auto-run error for "${id}":`, err);

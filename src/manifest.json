@@ -7,6 +7,9 @@
       "run_at": "document_idle"
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "name": "Domain Shortcuts",
   "version": "1.0.0",
   "description": "Run configurable JavaScript shortcuts on the active tab, filtered by domain.",
@@ -14,9 +17,6 @@
     "activeTab",
     "scripting"
   ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' 'unsafe-eval'; object-src 'self'"
-  },
   "host_permissions": [
     "<all_urls>"
   ],
