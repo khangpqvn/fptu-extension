@@ -1,14 +1,34 @@
 {
   "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["auto-run.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "name": "Domain Shortcuts",
   "version": "1.0.0",
   "description": "Run configurable JavaScript shortcuts on the active tab, filtered by domain.",
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "web_accessible_resources": [
     {
-      "resources": ["actions/*/*"],
-      "matches": ["*://*/*"]
+      "resources": [
+        "config.json",
+        "actions/*/*"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
     }
   ],
   "action": {

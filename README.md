@@ -4,6 +4,7 @@ Chrome MV3 template for configurable utility buttons matched by domain and endpo
 
 - Route registry: `src/config.json`
 - Action templates: `src/actions/<action-id>/`
+- Auto-run actions: set `"auto": true` in `action.json` to execute on page load without appearing in the popup
 - Extension icons: `src/icons/icon16.png`, `icon32.png`, `icon48.png`, `icon128.png`, and `icon512.png`
 - Configuration guide: `docs/store-description.md`
 

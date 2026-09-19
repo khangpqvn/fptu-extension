@@ -3,7 +3,7 @@
     {
       "domain": "example.com",
       "endpoint": "*",
-      "actions": ["highlight-links", "log-images"]
+      "actions": ["highlight-links", "log-images", "auto-dom-modifier"]
     },
     {
       "domain": "github.com",

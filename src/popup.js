@@ -219,6 +219,9 @@ async function init() {
     const failedActions = results.filter((result) => result.status === 'rejected');
     const seenKeys = new Set();
     const actions = loadedActions.filter((action) => {
+      if (action.auto) {
+        return false;
+      }
       if (typeof action.key !== 'string' || seenKeys.has(action.key)) {
         return false;
       }

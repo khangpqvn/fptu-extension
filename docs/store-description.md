@@ -9,6 +9,7 @@ Run reusable JavaScript shortcuts on the active browser tab. Routes select butto
 - **Composable routes**: all matching routes are merged and duplicate actions are removed
 - **Folder-based actions**: each button owns an `action.json`, `script.js`, and optional icon asset
 - **Page-context execution**: packaged scripts execute in the active page after a button click
+- **Auto-run on page load**: actions with `"auto": true` execute automatically when a matching page finishes loading and do not appear as buttons in the popup
 - **Local configuration**: no telemetry or remote service is required
 
 ## Route configuration
@@ -76,6 +77,55 @@ document.querySelectorAll('a').forEach((element) => {
 The action ID, folder name, and `action.json` `id` must match. Action folder IDs use lowercase kebab-case.
 
 Scripts are trusted local code with access to the active page. Add only JavaScript you understand.
+
+## Auto-run action template
+
+Actions with `"auto": true` in their `action.json` execute automatically when a matching page finishes loading — no popup click required. The script runs in the page's MAIN world with full DOM and JavaScript access.
+
+### Creating an auto-run action
+
+1. Create a folder under `src/actions/<action-id>/`.
+2. Add `action.json` with `"auto": true`:
+
+```json
+{
+  "id": "auto-dom-modifier",
+  "key": "m",
+  "name": "Auto DOM modifier",
+  "description": "Automatically compute and modify the current page DOM on load.",
+  "icon": "⚙️",
+  "auto": true
+}
+```
+
+3. Add `script.js` with your DOM manipulation logic:
+
+```js
+(function () {
+  'use strict';
+  // Your computation and DOM modifications here
+  const headings = document.querySelectorAll('h1, h2, h3');
+  headings.forEach((h) => {
+    h.style.borderBottom = '2px solid #f5c2e7';
+  });
+})();
+```
+
+4. Add the action ID to a route in `src/config.json`:
+
+```json
+{
+  "domain": "example.com",
+  "endpoint": "/dashboard/*",
+  "actions": ["auto-dom-modifier"]
+}
+```
+
+The `auto` field is optional and defaults to `false`. Actions without it behave as before — they appear as popup buttons and run only on click. Auto-run actions do not appear in the popup; they execute silently when the page loads.
+
+### How it works
+
+A content script (`auto-run.js`) loads at `document_idle` on every HTTP/HTTPS page. It reads `config.json`, matches the current URL against configured routes, and for each matched action with `"auto": true`, injects its `script.js` into the page via a `<script>` tag. Errors in one action do not block others.
 
 ## Permissions
 
