@@ -178,40 +178,19 @@ function createActionButton(action, tabId) {
     });
     status.textContent = 'Running…';
 
-    const runner = (source) => {
-      try {
-        const script = document.createElement('script');
-        script.textContent = source;
-        document.documentElement.appendChild(script);
-        script.remove();
-      } catch (e) {
-        console.error('Shortcut execution error:', e);
-      }
-    };
-
     try {
       await chrome.scripting.executeScript({
         target: { tabId },
         world: 'MAIN',
-        func: runner,
-        args: [action.code],
+        files: [action.scriptPath],
       });
       window.close();
-    } catch (mainError) {
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId },
-          func: runner,
-          args: [action.code],
-        });
-        window.close();
-      } catch (error) {
-        document.querySelectorAll('.shortcut').forEach((item) => {
-          item.disabled = false;
-        });
-        console.error('Execution failed:', { mainError, error });
-        status.textContent = `Could not run shortcut: ${error.message}`;
-      }
+    } catch (error) {
+      document.querySelectorAll('.shortcut').forEach((item) => {
+        item.disabled = false;
+      });
+      console.error('Execution failed:', error);
+      status.textContent = `Could not run shortcut: ${error.message}`;
     }
   });
 
