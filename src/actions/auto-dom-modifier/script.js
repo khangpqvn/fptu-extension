@@ -6,8 +6,7 @@
  */
 (function autoDomModifier() {
   'use strict';
-  alert("ong ban tat")
-  console.log("Ong ban Tat");
+
   // --- Example: count and log all headings ---
   const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
   console.log(`[auto-dom-modifier] Found ${headings.length} heading(s) on ${location.hostname}`);
