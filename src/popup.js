@@ -180,7 +180,10 @@ function createActionButton(action, tabId) {
 
     const runner = (source) => {
       try {
-        (0, eval)(source);
+        const script = document.createElement('script');
+        script.textContent = source;
+        document.documentElement.appendChild(script);
+        script.remove();
       } catch (e) {
         console.error('Shortcut execution error:', e);
       }

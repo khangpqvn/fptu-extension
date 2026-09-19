@@ -5,7 +5,12 @@
   "description": "Run configurable JavaScript shortcuts on the active tab, filtered by domain.",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
-  "web_accessible_resources": ["actions/*/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["actions/*/*"],
+      "matches": ["*://*/*"]
+    }
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
