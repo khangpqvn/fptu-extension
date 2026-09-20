@@ -1,0 +1,8 @@
+{
+  "id": "fap-teacher-search-student-hook",
+  "key": "m",
+  "name": "Tìm thông tin sinh viên",
+  "description": "Sửa form kết quả tìm kiếm thông tin sinh viên",
+  "icon": "⚙️",
+  "auto": true
+}
