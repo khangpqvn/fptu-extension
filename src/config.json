@@ -9,14 +9,23 @@
       "domain": "fap.fpt.edu.vn",
       "endpoint": "/Attendance/EditAttendance.aspx",
       "actions": [
-        "fap-attendance"
+        "fap-attendance",
+        "fap-nav-attendance-hook"
       ]
     },
     {
       "domain": "fap.fpt.edu.vn",
       "endpoint": "/Attendance/AddAttendance.aspx",
       "actions": [
-        "fap-attendance"
+        "fap-attendance",
+        "fap-nav-attendance-hook"
+      ]
+    },
+    {
+      "domain": "fap.fpt.edu.vn",
+      "endpoint": "/Attendance/ViewAttendance.aspx",
+      "actions": [
+        "fap-nav-attendance-hook"
       ]
     }
   ]
