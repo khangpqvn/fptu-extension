@@ -1,0 +1,8 @@
+{
+  "id": "fap-nav-attendance-hook",
+  "key": "m",
+  "name": "Hiện liên kết Take Attendance",
+  "description": "Hiện liên kết Take Attendance trên thanh điều hướng",
+  "icon": "⚙️",
+  "auto": true
+}
