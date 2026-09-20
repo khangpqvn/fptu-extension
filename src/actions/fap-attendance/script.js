@@ -39,11 +39,46 @@
             ">
 
                 <div style="
-                    font-size:18px;
-                    font-weight:bold;
-                    margin-bottom:12px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    gap:12px;
+                    margin-bottom:16px;
                 ">
-                    Điểm danh
+                    <span style="
+                        font-size:18px;
+                        font-weight:bold;
+                        color:#101828;
+                    ">
+                        Điểm danh
+                    </span>
+
+                    <button
+                        id="__attendance_copy"
+                        type="button"
+                        aria-label="Sao chép Roll Number đang Present"
+                        style="
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            min-height:44px;
+                            padding:0 14px;
+                            border:1px solid #d0d5dd;
+                            border-radius:8px;
+                            background:#ffffff;
+                            color:#344054;
+                            box-shadow:0 1px 2px rgba(16,24,40,.06);
+                            cursor:pointer;
+                            font-size:13px;
+                            font-weight:600;
+                            line-height:1.2;
+                            white-space:nowrap;
+                            touch-action:manipulation;
+                            transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease,transform .15s ease;
+                        "
+                    >
+                        Copy Present
+                    </button>
                 </div>
 
                 <div style="
@@ -82,6 +117,8 @@ SE22xxxx"
                     margin-top:12px;
                 ">
 
+                   
+
                     <button
                         id="__attendance_cancel"
                         style="
@@ -110,22 +147,6 @@ SE22xxxx"
                         "
                     >
                         Điểm danh
-                    </button>
-
-                    <button
-                        id="__attendance_copy"
-                        style="
-                            flex:1;
-                            padding:10px;
-                            border:0;
-                            background:#198754;
-                            color:white;
-                            border-radius:6px;
-                            cursor:pointer;
-                            font-weight:bold;
-                        "
-                    >
-                        Copy Present
                     </button>
 
                 </div>
