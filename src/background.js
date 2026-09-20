@@ -15,11 +15,16 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return;
   }
 
+  const files = [`actions/${msg.actionId}/script.js`];
+
+  if (msg.actionId === 'qr-share-link') {
+    files.unshift('actions/qr-share-link/qrcode.min.js');
+  }
+
   chrome.scripting.executeScript(
     {
       target: { tabId },
-      world: 'MAIN',
-      files: [`actions/${msg.actionId}/script.js`],
+      files,
     },
     () => {
       if (chrome.runtime.lastError) {
