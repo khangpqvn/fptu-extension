@@ -32,42 +32,72 @@
 
     const links = [
       {
-        text: 'Bảng điểm tốt nghiệp',
+        icon: '🎓',
+        label: 'Bảng điểm tốt nghiệp',
         url: `Grade/StudentTranscript.aspx?RollNumber=${encodeURIComponent(rollNumber)}`
       },
       {
-        text: 'Điểm chi tiết từng kỳ',
+        icon: '📊',
+        label: 'Điểm chi tiết từng kỳ',
         url: `Grade/StudentGrade.aspx?rollNumber=${encodeURIComponent(rollNumber)}`
       },
       {
-        text: 'Lịch sử điểm tổng quát',
+        icon: '📈',
+        label: 'Lịch sử điểm tổng quát',
         url: `Grade/SearchStudentGrade.aspx?rollNumber=${encodeURIComponent(rollNumber)}`
       },
       {
-        text: 'Thông tin điểm danh',
+        icon: '✓',
+        label: 'Thông tin điểm danh',
         url: `Report/ViewAttendstudent.aspx?id=${encodeURIComponent(rollNumber)}`
       }
     ];
 
-    links.forEach((item, linkIndex) => {
+    links.forEach((item) => {
       const link = document.createElement('a');
 
       link.href = item.url;
-      link.textContent = item.text;
+      link.textContent = item.icon;
+      link.title = item.label;
+      link.setAttribute('aria-label', item.label);
       link.target = '_blank';
 
       link.style.cssText = `
-                display: inline-block;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
                 margin-right: 6px;
-                padding: 4px 8px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 background: #f5f5f5;
                 color: #333;
                 text-decoration: none;
-                font-size: 12px;
+                font-size: 18px;
                 white-space: nowrap;
+                cursor: pointer;
+                transition: all 0.2s ease;
             `;
+
+      link.addEventListener('mouseenter', function () {
+        this.style.background = '#e8e8e8';
+        this.style.borderColor = '#999';
+      });
+
+      link.addEventListener('mouseleave', function () {
+        this.style.background = '#f5f5f5';
+        this.style.borderColor = '#ccc';
+      });
+
+      link.addEventListener('focus', function () {
+        this.style.outline = '2px solid #0066cc';
+        this.style.outlineOffset = '2px';
+      });
+
+      link.addEventListener('blur', function () {
+        this.style.outline = 'none';
+      });
 
       quickCell.appendChild(link);
     });
