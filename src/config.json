@@ -34,7 +34,27 @@
       "actions": [
         "fap-teacher-search-student-hook"
       ]
+    },
+    {
+      "domain": "fap.fpt.edu.vn",
+      "endpoint": "/Grade/StudentTranscript.aspx",
+      "actions": [
+        "fap-grade-average"
+      ]
+    },
+    {
+      "domain": "fap.fpt.edu.vn",
+      "endpoint": "/Grade/SearchStudentGrade.aspx",
+      "actions": [
+        "fap-search-student-grade-hook"
+      ]
+    },
+    {
+      "domain": "fap.fpt.edu.vn",
+      "endpoint": "/Schedule/ActivityDetail.aspx",
+      "actions": [
+        "fap-activity-detail-hook"
+      ]
     }
-    
   ]
 }

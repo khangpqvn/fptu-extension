@@ -1,0 +1,9 @@
+{
+  "id": "fap-grade-average",
+  "key": "g",
+  "name": "FAP Grade Average Calculator",
+  "description": "Calculate and display cumulative GPA for FAP Student Transcript page",
+  "icon": "📊",
+  "route": "https://fap.fpt.edu.vn/Grade/StudentTranscript.aspx",
+  "auto": true
+}

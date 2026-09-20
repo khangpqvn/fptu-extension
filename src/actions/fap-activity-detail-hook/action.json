@@ -1,0 +1,9 @@
+{
+  "id": "fap-activity-detail-hook",
+  "key": "a",
+  "name": "FAP Activity Detail Hook",
+  "description": "Hook to add attendance group link button on the FAP Activity Detail page",
+  "icon": "📋",
+  "route": "https://fap.fpt.edu.vn/Teacher/ActivityDetail.aspx",
+  "auto": true
+}

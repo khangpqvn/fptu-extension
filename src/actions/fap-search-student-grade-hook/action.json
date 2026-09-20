@@ -1,0 +1,9 @@
+{
+  "id": "fap-search-student-grade-hook",
+  "key": "s",
+  "name": "FAP Search Student Grade Hook",
+  "description": "Hook to search for student grades on the FAP Student Transcript page",
+  "icon": "📊",
+  "route": "https://fap.fpt.edu.vn/Grade/SearchStudentGrade.aspx",
+  "auto": true
+}
