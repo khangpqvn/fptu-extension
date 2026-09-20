@@ -10,7 +10,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "name": "Domain Shortcuts",
+  "name": "FPTU Tools",
   "version": "1.0.0",
   "description": "Run configurable JavaScript shortcuts on the active tab, filtered by domain.",
   "permissions": [
