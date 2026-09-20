@@ -1,0 +1,7 @@
+{
+  "id": "qr-share-link",
+  "key": "q",
+  "name": "QR Share Link",
+  "description": "Generate a QR code of the current page URL for quick sharing.",
+  "icon": "📱"
+}
