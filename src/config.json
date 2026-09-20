@@ -2,58 +2,60 @@
   "routes": [
     {
       "domain": "*",
-      "endpoint": "*",
-      "actions": ["qr-share-link"]
-    },
-    {
-      "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Attendance/EditAttendance.aspx",
-      "actions": [
-        "fap-attendance",
-        "fap-nav-attendance-hook"
+      "endpoints": [
+        {
+          "endpoint": "*",
+          "actions": ["qr-share-link"]
+        }
       ]
     },
     {
       "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Attendance/AddAttendance.aspx",
-      "actions": [
-        "fap-attendance",
-        "fap-nav-attendance-hook"
-      ]
-    },
-    {
-      "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Attendance/ViewAttendance.aspx",
-      "actions": [
-        "fap-nav-attendance-hook"
-      ]
-    },
-    {
-      "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Teacher.aspx",
-      "actions": [
-        "fap-teacher-search-student-hook"
-      ]
-    },
-    {
-      "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Grade/StudentTranscript.aspx",
-      "actions": [
-        "fap-grade-average"
-      ]
-    },
-    {
-      "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Grade/SearchStudentGrade.aspx",
-      "actions": [
-        "fap-search-student-grade-hook"
-      ]
-    },
-    {
-      "domain": "fap.fpt.edu.vn",
-      "endpoint": "/Schedule/ActivityDetail.aspx",
-      "actions": [
-        "fap-activity-detail-hook"
+      "endpoints": [
+        {
+          "endpoint": "/Attendance/EditAttendance.aspx",
+          "actions": [
+            "fap-attendance",
+            "fap-nav-attendance-hook"
+          ]
+        },
+        {
+          "endpoint": "/Attendance/AddAttendance.aspx",
+          "actions": [
+            "fap-attendance",
+            "fap-nav-attendance-hook"
+          ]
+        },
+        {
+          "endpoint": "/Attendance/ViewAttendance.aspx",
+          "actions": [
+            "fap-nav-attendance-hook"
+          ]
+        },
+        {
+          "endpoint": "/Teacher.aspx",
+          "actions": [
+            "fap-teacher-search-student-hook"
+          ]
+        },
+        {
+          "endpoint": "/Grade/StudentTranscript.aspx",
+          "actions": [
+            "fap-grade-average"
+          ]
+        },
+        {
+          "endpoint": "/Grade/SearchStudentGrade.aspx",
+          "actions": [
+            "fap-search-student-grade-hook"
+          ]
+        },
+        {
+          "endpoint": "/Schedule/ActivityDetail.aspx",
+          "actions": [
+            "fap-activity-detail-hook"
+          ]
+        }
       ]
     }
   ]

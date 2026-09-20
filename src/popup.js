@@ -59,20 +59,27 @@ function getActionIds(config, hostname, pathname) {
   const routes = Array.isArray(config?.routes) ? config.routes : [];
 
   routes.forEach((route) => {
-    if (!route || !matchesDomain(route.domain, hostname) || !matchesEndpoint(route.endpoint, pathname)) {
+    if (!route || !matchesDomain(route.domain, hostname)) {
       return;
     }
 
-    if (!Array.isArray(route.actions)) {
-      return;
-    }
-
-    route.actions.forEach((actionId) => {
-      if (typeof actionId !== 'string' || seenActionIds.has(actionId)) {
+    const endpoints = Array.isArray(route.endpoints) ? route.endpoints : [];
+    endpoints.forEach((endpointObj) => {
+      if (!endpointObj || !matchesEndpoint(endpointObj.endpoint, pathname)) {
         return;
       }
-      seenActionIds.add(actionId);
-      actionIds.push(actionId);
+
+      if (!Array.isArray(endpointObj.actions)) {
+        return;
+      }
+
+      endpointObj.actions.forEach((actionId) => {
+        if (typeof actionId !== 'string' || seenActionIds.has(actionId)) {
+          return;
+        }
+        seenActionIds.add(actionId);
+        actionIds.push(actionId);
+      });
     });
   });
 

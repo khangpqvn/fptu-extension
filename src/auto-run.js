@@ -61,14 +61,20 @@
       const actionIds = [];
 
       for (const route of routes) {
-        if (!route || !matchesDomain(route.domain, hostname) || !matchesEndpoint(route.endpoint, pathname)) {
+        if (!route || !matchesDomain(route.domain, hostname)) {
           continue;
         }
-        if (!Array.isArray(route.actions)) continue;
-        for (const id of route.actions) {
-          if (typeof id === 'string' && !seen.has(id)) {
-            seen.add(id);
-            actionIds.push(id);
+        const endpoints = Array.isArray(route.endpoints) ? route.endpoints : [];
+        for (const endpointObj of endpoints) {
+          if (!endpointObj || !matchesEndpoint(endpointObj.endpoint, pathname)) {
+            continue;
+          }
+          if (!Array.isArray(endpointObj.actions)) continue;
+          for (const id of endpointObj.actions) {
+            if (typeof id === 'string' && !seen.has(id)) {
+              seen.add(id);
+              actionIds.push(id);
+            }
           }
         }
       }
