@@ -1,6 +1,6 @@
-# FPTU Extension
+# FPTU Tools
 
-Chrome MV3 template for configurable utility buttons matched by domain and endpoint.
+Chrome MV3 extension for configurable utility buttons matched by domain and endpoint.
 
 - Route registry: `src/config.json`
 - Action templates: `src/actions/<action-id>/`

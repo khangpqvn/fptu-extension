@@ -1,8 +1,0 @@
-{
-  "id": "auto-dom-modifier",
-  "key": "m",
-  "name": "Auto DOM modifier",
-  "description": "Automatically compute and modify the current page DOM on load.",
-  "icon": "⚙️",
-  "auto": true
-}

@@ -1,7 +1,0 @@
-{
-  "id": "log-repository-name",
-  "key": "1",
-  "name": "Log repository name",
-  "description": "Print the current repository name to the page console.",
-  "icon": "📦"
-}
