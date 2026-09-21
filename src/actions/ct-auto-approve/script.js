@@ -84,12 +84,16 @@
         'background:#fff',
         'font:14px Arial,sans-serif',
       ].join(';');
-      mode.innerHTML = '<option value="range">Bỏ qua theo range từ 1 đến n</option>'
+      mode.innerHTML = '<option value="range">Bỏ qua theo range từ a đến b</option>'
         + '<option value="list">Nhập danh sách số</option>';
 
-      const rangeInput = createInput('number', 'Ví dụ: 20');
-      rangeInput.min = '1';
-      rangeInput.step = '1';
+      const rangeStartInput = createInput('number', 'Ví dụ: 1');
+      rangeStartInput.min = '1';
+      rangeStartInput.step = '1';
+
+      const rangeEndInput = createInput('number', 'Ví dụ: 20');
+      rangeEndInput.min = '1';
+      rangeEndInput.step = '1';
 
       const listInput = document.createElement('textarea');
       listInput.placeholder = 'Ví dụ: 1, 3, 5\n7, 9';
@@ -105,10 +109,35 @@
         'border-radius:6px',
         'font:14px Arial,sans-serif',
       ].join(';');
-      listInput.hidden = true;
+      const rangeStartField = createFieldLabel('Số bắt đầu (a)', rangeStartInput);
+      const rangeEndField = createFieldLabel('Số kết thúc (b)', rangeEndInput);
+      const listField = createFieldLabel('Danh sách số', listInput);
+      listField.hidden = true;
 
       const error = document.createElement('div');
       error.style.cssText = 'min-height:20px;margin-top:8px;color:#b42318;font-size:13px;';
+
+      const log = document.createElement('pre');
+      log.style.cssText = [
+        'box-sizing:border-box',
+        'width:100%',
+        'max-height:280px',
+        'margin:0',
+        'padding:12px',
+        'overflow:auto',
+        'border-radius:6px',
+        'background:#101828',
+        'color:#f2f4f7',
+        'font:13px/1.5 Menlo,Consolas,monospace',
+        'white-space:pre-wrap',
+      ].join(';');
+      log.hidden = true;
+
+      const writeLog = (message) => {
+        const time = new Date().toLocaleTimeString('vi-VN');
+        log.textContent += `[${time}] ${message}\n`;
+        log.scrollTop = log.scrollHeight;
+      };
 
       const buttons = document.createElement('div');
       buttons.style.cssText = 'display:flex;gap:8px;margin-top:8px;';
@@ -144,9 +173,11 @@
         title,
         description,
         createFieldLabel('Cách chọn số cần bỏ qua', mode),
-        createFieldLabel('Số n', rangeInput),
-        createFieldLabel('Danh sách số', listInput),
+        rangeStartField,
+        rangeEndField,
+        listField,
         error,
+        log,
         buttons,
       );
       buttons.append(cancelButton, submitButton);
@@ -156,15 +187,29 @@
 
       mode.addEventListener('change', () => {
         const isRange = mode.value === 'range';
-        rangeInput.hidden = !isRange;
-        listInput.hidden = isRange;
+        rangeStartField.hidden = !isRange;
+        rangeEndField.hidden = !isRange;
+        listField.hidden = isRange;
         error.textContent = '';
-        (isRange ? rangeInput : listInput).focus();
+        (isRange ? rangeStartInput : listInput).focus();
       });
 
       const finish = (value) => {
-        overlay.remove();
-        resolve(value);
+        if (!value) {
+          overlay.remove();
+          resolve(null);
+          return;
+        }
+
+        log.hidden = false;
+        submitButton.disabled = true;
+        mode.disabled = true;
+        rangeStartInput.disabled = true;
+        rangeEndInput.disabled = true;
+        listInput.disabled = true;
+        cancelButton.disabled = true;
+        writeLog('Đã nhận cấu hình. Bắt đầu xử lý...');
+        resolve({ ignoredNumbers: value, writeLog });
       };
 
       cancelButton.addEventListener('click', () => finish(null));
@@ -179,14 +224,17 @@
         const ignoredNumbers = new Set();
 
         if (mode.value === 'range') {
-          const end = Number(rangeInput.value);
-          if (!Number.isSafeInteger(end) || end < 1) {
-            error.textContent = 'Số n phải là số nguyên lớn hơn hoặc bằng 1.';
-            rangeInput.focus();
+          const start = Number(rangeStartInput.value);
+          const end = Number(rangeEndInput.value);
+          if (!Number.isSafeInteger(start) || start < 1
+            || !Number.isSafeInteger(end) || end < 1
+            || start > end) {
+            error.textContent = 'Khoảng phải gồm hai số nguyên dương và a không được lớn hơn b.';
+            rangeStartInput.focus();
             return;
           }
 
-          for (let number = 1; number <= end; number += 1) {
+          for (let number = start; number <= end; number += 1) {
             ignoredNumbers.add(number);
           }
         } else {
@@ -212,7 +260,7 @@
         finish(ignoredNumbers);
       });
 
-      rangeInput.focus();
+      rangeStartInput.focus();
     });
   }
 
@@ -266,62 +314,81 @@
     await waitForAssignmentLinks();
   }
 
-  function waitForLoad(windowRef) {
-    return new Promise((resolve) => {
-      let finished = false;
+  async function waitForWindowReady(windowRef) {
+    const deadline = Date.now() + WAIT_TIMEOUT;
 
-      const done = () => {
-        if (finished) {
-          return;
-        }
-        finished = true;
-        resolve();
-      };
-
+    while (Date.now() < deadline) {
       try {
-        if (windowRef.document.readyState === 'complete') {
-          done();
-          return;
+        const currentUrl = windowRef.location.href;
+        const isNavigated = currentUrl && currentUrl !== 'about:blank';
+        if (isNavigated && windowRef.document.readyState === 'complete') {
+          return true;
         }
-        windowRef.addEventListener('load', done, { once: true });
       } catch (error) {
-        done();
+        // The new window may be cross-origin while it is navigating.
       }
 
-      setTimeout(done, WAIT_TIMEOUT);
-    });
+      await sleep(100);
+    }
+
+    return false;
   }
 
-  async function run(listNumberIgnore) {
+  async function waitForElement(windowRef, selector) {
+    const deadline = Date.now() + WAIT_TIMEOUT;
+
+    while (Date.now() < deadline) {
+      try {
+        const element = windowRef.document.querySelector(selector);
+        if (element) {
+          return element;
+        }
+      } catch (error) {
+        // The target document may still be navigating or rendering.
+      }
+
+      await sleep(100);
+    }
+
+    return null;
+  }
+
+  async function run(listNumberIgnore, writeLog) {
+    writeLog('Đang chuyển đến route #assignment...');
     await navigateToAssignment();
+    writeLog('Đã tải xong route #assignment.');
 
     const links = [...document.querySelectorAll('a[title="Grading"]')]
       .map((anchor) => anchor.href || anchor.getAttribute('href'))
       .filter(Boolean);
+    writeLog(`Tìm thấy ${links.length} bài cần xử lý.`);
 
     for (let index = 0; index < links.length; index += 1) {
       const stt = index + 1;
       const link = links[index];
 
       if (listNumberIgnore.has(stt)) {
-        console.log('ignore:', stt);
+        writeLog(`Bỏ qua bài ${stt}.`);
         continue;
       }
 
+      writeLog(`Đang mở bài ${stt}: ${link}`);
       const windowRef = window.open(link, '_blank');
       if (!windowRef) {
-        console.error('Không thể mở window:', stt, link);
+        writeLog(`Không thể mở cửa sổ bài ${stt}.`);
         continue;
       }
 
-      console.log('opening:', stt, link);
-
       try {
-        await waitForLoad(windowRef);
+        const isReady = await waitForWindowReady(windowRef);
+        if (!isReady) {
+          writeLog(`Bài ${stt} không hoàn tất tải trong ${WAIT_TIMEOUT / 1000} giây.`);
+          continue;
+        }
 
-        const statusSelect = windowRef.document.querySelector('#StatusId');
+        const statusSelect = await waitForElement(windowRef, '#StatusId');
         if (!statusSelect) {
-          console.warn('Không tìm thấy #StatusId:', stt, link);
+          writeLog(`Không tìm thấy #StatusId ở bài ${stt} sau khi trang tải xong.`);
           continue;
         }
 
@@ -330,38 +397,40 @@
         await sleep(200);
 
         if (statusSelect.value !== '9') {
-          console.error('Không thể chuyển sang Passed:', stt, link);
+          writeLog(`Không thể chuyển bài ${stt} sang Passed.`);
           continue;
         }
 
-        console.log('Status changed to Passed:', stt, link);
+        writeLog(`Đã chuyển bài ${stt} sang Passed.`);
 
         const submitButton = windowRef.document.querySelector('#btnSubmit');
         if (!submitButton) {
-          console.warn('Không tìm thấy #btnSubmit:', stt, link);
+          writeLog(`Không tìm thấy #btnSubmit ở bài ${stt}.`);
           continue;
         }
 
         submitButton.click();
-        console.log('clicked:', stt, link);
+        writeLog(`Đã submit bài ${stt}.`);
         await sleep(500);
-        console.log('done:', stt, link);
+        writeLog(`Hoàn tất bài ${stt}.`);
       } catch (error) {
-        console.error('Không thể truy cập document:', stt, error);
+        writeLog(`Không thể truy cập document bài ${stt}: ${error.message}`);
       } finally {
         try {
           windowRef.close();
         } catch (error) {
-          console.warn('Không thể đóng window:', stt, error);
+          writeLog(`Không thể đóng cửa sổ bài ${stt}: ${error.message}`);
         }
       }
     }
+
+    writeLog('Đã hoàn tất toàn bộ danh sách.');
   }
 
   showIgnoreForm()
-    .then((listNumberIgnore) => {
-      if (listNumberIgnore) {
-        return run(listNumberIgnore);
+    .then((result) => {
+      if (result) {
+        return run(result.ignoredNumbers, result.writeLog);
       }
       return null;
     })
