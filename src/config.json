@@ -1,6 +1,18 @@
 {
   "routes": [
     {
+      "domain": "10.22.127.121",
+      "endpoints": [
+        {
+          "endpoint": "/ClassTracking/Details/*",
+          "actions": [
+            "ct-auto-approve",
+            "ct-copy-usb-students"
+          ]
+        }
+      ]
+    },
+    {
       "domain": "*",
       "endpoints": [
         {
