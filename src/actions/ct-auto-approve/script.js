@@ -84,7 +84,8 @@
         'background:#fff',
         'font:14px Arial,sans-serif',
       ].join(';');
-      mode.innerHTML = '<option value="range">Bỏ qua theo range từ a đến b</option>'
+      mode.innerHTML = '<option value="none">Không bỏ qua bài nào</option>'
+        + '<option value="range">Bỏ qua theo range từ a đến b</option>'
         + '<option value="list">Nhập danh sách số</option>';
 
       const rangeStartInput = createInput('number', 'Ví dụ: 1');
@@ -112,6 +113,8 @@
       const rangeStartField = createFieldLabel('Số bắt đầu (a)', rangeStartInput);
       const rangeEndField = createFieldLabel('Số kết thúc (b)', rangeEndInput);
       const listField = createFieldLabel('Danh sách số', listInput);
+      rangeStartField.hidden = true;
+      rangeEndField.hidden = true;
       listField.hidden = true;
 
       const error = document.createElement('div');
@@ -187,11 +190,17 @@
 
       mode.addEventListener('change', () => {
         const isRange = mode.value === 'range';
+        const isList = mode.value === 'list';
         rangeStartField.hidden = !isRange;
         rangeEndField.hidden = !isRange;
-        listField.hidden = isRange;
+        listField.hidden = !isList;
         error.textContent = '';
-        (isRange ? rangeStartInput : listInput).focus();
+
+        if (isRange) {
+          rangeStartInput.focus();
+        } else if (isList) {
+          listInput.focus();
+        }
       });
 
       const finish = (value) => {
@@ -222,6 +231,11 @@
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         const ignoredNumbers = new Set();
+
+        if (mode.value === 'none') {
+          finish(ignoredNumbers);
+          return;
+        }
 
         if (mode.value === 'range') {
           const start = Number(rangeStartInput.value);
@@ -260,7 +274,7 @@
         finish(ignoredNumbers);
       });
 
-      rangeStartInput.focus();
+      mode.focus();
     });
   }
 
