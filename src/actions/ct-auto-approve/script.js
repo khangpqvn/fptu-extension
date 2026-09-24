@@ -113,9 +113,18 @@
       const rangeStartField = createFieldLabel('Số bắt đầu (a)', rangeStartInput);
       const rangeEndField = createFieldLabel('Số kết thúc (b)', rangeEndInput);
       const listField = createFieldLabel('Danh sách số', listInput);
-      rangeStartField.hidden = true;
-      rangeEndField.hidden = true;
-      listField.hidden = true;
+
+      const updateFieldVisibility = () => {
+        const isRange = mode.value === 'range';
+        const isList = mode.value === 'list';
+        rangeStartField.hidden = !isRange;
+        rangeStartField.style.display = isRange ? 'block' : 'none';
+        rangeEndField.hidden = !isRange;
+        rangeEndField.style.display = isRange ? 'block' : 'none';
+        listField.hidden = !isList;
+        listField.style.display = isList ? 'block' : 'none';
+      };
+      updateFieldVisibility();
 
       const error = document.createElement('div');
       error.style.cssText = 'min-height:20px;margin-top:8px;color:#b42318;font-size:13px;';
@@ -135,6 +144,7 @@
         'white-space:pre-wrap',
       ].join(';');
       log.hidden = true;
+      log.style.display = 'none';
 
       const writeLog = (message) => {
         const time = new Date().toLocaleTimeString('vi-VN');
@@ -189,16 +199,12 @@
       document.body.appendChild(overlay);
 
       mode.addEventListener('change', () => {
-        const isRange = mode.value === 'range';
-        const isList = mode.value === 'list';
-        rangeStartField.hidden = !isRange;
-        rangeEndField.hidden = !isRange;
-        listField.hidden = !isList;
+        updateFieldVisibility();
         error.textContent = '';
 
-        if (isRange) {
+        if (mode.value === 'range') {
           rangeStartInput.focus();
-        } else if (isList) {
+        } else if (mode.value === 'list') {
           listInput.focus();
         }
       });
@@ -211,6 +217,7 @@
         }
 
         log.hidden = false;
+        log.style.display = 'block';
         submitButton.disabled = true;
         mode.disabled = true;
         rangeStartInput.disabled = true;
