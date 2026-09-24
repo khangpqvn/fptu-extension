@@ -1,0 +1,7 @@
+{
+  "id": "tab-capture",
+  "key": "r",
+  "name": "Ghi hình & Chụp ảnh tab",
+  "description": "Ghi video hoặc chụp ảnh tab hiện tại rồi tải về máy.",
+  "icon": "🎥"
+}

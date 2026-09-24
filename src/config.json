@@ -17,7 +17,7 @@
       "endpoints": [
         {
           "endpoint": "*",
-          "actions": ["qr-share-link"]
+          "actions": ["qr-share-link", "tab-capture"]
         }
       ]
     },

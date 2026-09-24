@@ -13,9 +13,13 @@
   "name": "FPTU Tools",
   "version": "1.0.0",
   "description": "Run configurable JavaScript shortcuts on the active tab, filtered by domain.",
+  "minimum_chrome_version": "116",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "tabCapture",
+    "offscreen",
+    "downloads"
   ],
   "host_permissions": [
     "<all_urls>"

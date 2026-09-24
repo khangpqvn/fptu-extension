@@ -9,21 +9,28 @@ import { join } from 'path';
 const config = JSON.parse(fs.readFileSync(join(process.cwd(), 'src/config.json'), 'utf8'));
 
 // Test cases: [domain, pathname, expected action names]
+// Actions registered under the "*" domain route, so every case includes them.
+const GLOBAL_ACTIONS = ['qr-share-link', 'tab-capture'];
+
 const tests = [
   [
     'fap.fpt.edu.vn',
     '/Attendance/EditAttendance.aspx',
-    ['qr-share-link', 'fap-attendance', 'fap-nav-attendance-hook'],
+    [...GLOBAL_ACTIONS, 'fap-attendance', 'fap-nav-attendance-hook'],
   ],
-  ['fap.fpt.edu.vn', '/Attendance/ViewAttendance.aspx', ['qr-share-link', 'fap-nav-attendance-hook']],
-  ['fap.fpt.edu.vn', '/Teacher.aspx', ['qr-share-link', 'fap-teacher-search-student-hook']],
+  ['fap.fpt.edu.vn', '/Attendance/ViewAttendance.aspx', [...GLOBAL_ACTIONS, 'fap-nav-attendance-hook']],
+  ['fap.fpt.edu.vn', '/Teacher.aspx', [...GLOBAL_ACTIONS, 'fap-teacher-search-student-hook']],
   [
     '10.22.127.121',
     '/ClassTracking/Details/104249',
-    ['ct-auto-approve', 'ct-copy-usb-students', 'qr-share-link'],
+    ['ct-auto-approve', 'ct-copy-usb-students', ...GLOBAL_ACTIONS],
   ],
-  ['10.22.127.121', '/ClassTracking/Details/other-id', ['ct-auto-approve', 'ct-copy-usb-students', 'qr-share-link']],
-  ['example.com', '*', ['qr-share-link']],
+  [
+    '10.22.127.121',
+    '/ClassTracking/Details/other-id',
+    ['ct-auto-approve', 'ct-copy-usb-students', ...GLOBAL_ACTIONS],
+  ],
+  ['example.com', '*', GLOBAL_ACTIONS],
 ];
 
 function normalizeHostname(hostname) {

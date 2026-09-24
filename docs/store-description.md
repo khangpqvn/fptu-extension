@@ -99,7 +99,7 @@ Scripts are trusted local code with access to the active page. Add only JavaScri
 
 ### Bundled assets
 
-An action folder may ship extra files, such as `src/actions/qr-share-link/qrcode.min.js`. Extra files are not injected automatically. Register each one in the `files` array in `src/background.js`, before the action's `script.js`, and confirm `web_accessible_resources` in `src/manifest.json` still covers the path.
+An action folder may ship extra files, such as `src/actions/qr-share-link/qrcode.min.js`. Extra files are not injected automatically. Register each one under the action's ID in the `EXTRA_ACTION_FILES` map in `src/background.js`; those files are injected before the action's `script.js`. Confirm `web_accessible_resources` in `src/manifest.json` still covers the path.
 
 ## Auto-run actions
 
@@ -158,8 +158,24 @@ Auto-run actions never appear in the popup. Actions without the `auto` field beh
 
 - **activeTab** — grants temporary access to the current tab when the extension popup is opened
 - **scripting** — provides `chrome.scripting.executeScript` to inject scripts
+- **tabCapture** — creates the media stream that records the active tab
+- **offscreen** — hosts `MediaRecorder` and `URL.createObjectURL` outside the service worker
+- **downloads** — saves screenshots and recordings into the Downloads folder
 - **<all_urls>** (host_permissions) — ensures script injection permissions across configured domains
 - **web_accessible_resources** — exposes `config.json` and `actions/*/*` so the popup and the content script can fetch them
+
+`minimum_chrome_version` is `116`, the first release where a service worker can create a `tabCapture` stream ID that an offscreen document consumes.
+
+## Tab capture
+
+The `tab-capture` action is registered under the `*` domain route, so it appears on every HTTP and HTTPS page. Clicking it opens a floating panel with two controls:
+
+- **Chụp ảnh** hides the panel for one frame, calls `chrome.tabs.captureVisibleTab`, and downloads `tab-capture/screenshot-<timestamp>.png`.
+- **Ghi hình** records the tab's video and audio, then downloads `tab-capture/recording-<timestamp>.webm` when stopped.
+
+Recording runs in the offscreen document, so it survives closing the panel and navigating within the tab. Captured tab audio is routed back through an `AudioContext` so the user keeps hearing the page while it records. The offscreen document stores its state in its own URL hash, which lets the service worker report the live recording state after being terminated, so reopening the panel shows the running timer and a working stop button.
+
+Clicking the shortcut again while the panel is open closes the panel; it does not stop an active recording.
 
 ## Extension icons
 
