@@ -1,12 +1,22 @@
 (() => {
   const rows = [...document.querySelectorAll('.row-of-student-vdi')];
+
+  const invalidValues = new Set();
+  document.querySelectorAll('select[name="studentVDIIds"] option').forEach((opt) => {
+    const text = opt.textContent.trim();
+    if (text === 'LOCK' || text === 'ERROR') {
+      invalidValues.add(opt.value);
+    }
+  });
+
   const studentNumbers = rows
     .filter((row) => {
-      const vdi = row
+      const option = row
         .querySelector('select[name="studentVDIIds"]')
-        ?.selectedOptions[0]?.textContent.trim();
+        ?.selectedOptions[0];
 
-      return vdi && vdi !== 'LOCK';
+      if (!option || !option.value) return false;
+      return !invalidValues.has(option.value);
     })
     .map((row) => row.querySelector('.student-studentNumber-vdi')?.textContent.trim())
     .filter(Boolean);
@@ -41,13 +51,17 @@
     const textarea = document.createElement('textarea');
     textarea.value = value;
     textarea.setAttribute('readonly', '');
-    textarea.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+    textarea.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0;';
     document.body.appendChild(textarea);
-    textarea.select();
 
     let copied = false;
     try {
+      textarea.focus({ preventScroll: true });
+      textarea.select();
+      textarea.setSelectionRange(0, value.length);
       copied = document.execCommand('copy');
+    } catch (error) {
+      console.warn('[ct-copy-usb-students] execCommand lỗi:', error);
     } finally {
       textarea.remove();
     }
@@ -60,7 +74,7 @@
         await navigator.clipboard.writeText(value);
         return true;
       } catch (error) {
-        console.warn('Clipboard API failed, using fallback:', error);
+        console.warn('[ct-copy-usb-students] clipboard API lỗi:', error.name, '-', error.message);
       }
     }
 
@@ -81,7 +95,7 @@
       }
     })
     .catch((error) => {
-      console.error('Copy USB student list failed:', error);
+      console.error('[ct-copy-usb-students] thất bại:', error);
       showStatus('Không thể copy danh sách mã số sinh viên.', true);
     });
 })();

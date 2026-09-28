@@ -2,6 +2,6 @@
   "id": "ct-copy-usb-students",
   "key": "c",
   "name": "Copy danh sách mã số sinh viên được gán USB",
-  "description": "Template shortcut cho chức năng sao chép danh sách sinh viên được gán USB.",
+  "description": "Sao chép danh sách mã sinh viên được gán USB.",
   "icon": "📋"
 }
