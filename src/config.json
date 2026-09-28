@@ -25,6 +25,12 @@
       "domain": "fap.fpt.edu.vn",
       "endpoints": [
         {
+          "endpoint": "/LecturerAttendance/Students",
+          "actions": [
+            "fap-attendance"
+          ]
+        },
+        {
           "endpoint": "/Attendance/EditAttendance.aspx",
           "actions": [
             "fap-attendance",

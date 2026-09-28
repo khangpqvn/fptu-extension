@@ -1,0 +1,2024 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Hệ thống quản lý đào tạo trường đại học fpt" />
+    <meta http-equiv="Content-Language" content="vi">
+    <title>&#x110;i&#x1EC3;m danh sinh vi&#xEA;n - FAP - FPT Education</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0e2a47" />
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=G2XWYR_Fhb79HpwJRmFa0uwCiv9MUmuzKlfpdiSr3ZQ" />
+
+    <!-- Theme config must stay before app CSS so first paint matches user preference -->
+    <script src="/assets/vendor/jidox/js/config.js?v=olVZ9PNYDStm4FSs_It9wc6BDC81ieH5H7wmDf6RkSk"></script>
+
+
+    <link href="/assets/vendor/jidox/css/app.min.css?v=uwzQyW6ncv2y4lo_lTavtZsztf93EHG1q3OeWVn1ykM" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="/assets/vendor/jidox/css/icons.min.css?v=TF2eguq2Tj8iHPf9IbYjWUU02iWlNOxMDB7m749-fBc" rel="stylesheet" type="text/css" />
+    <link href="/assets/vendor/flatpickr/flatpickr.min.css?v=GzSkJVLJbxDk36qko2cnawOGiqz_Y8GsQv_jMTUrx1Q" rel="stylesheet" />
+    <link href="/assets/vendor/jquery-toast-plugin/jquery.toast.min.css?v=WolrNTZ9lY0QL5f0_Qi1yw3RGnDLig2HVLYkrshm7Y0" rel="stylesheet" />
+    <link href="/css/style.css?v=f-f3-QNNJWrC3VpVJQINH_8qwV2M0wZueYAqizAJ4Ss" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="/css/attendance-students.css?v=VsBTlH9fj4PjOf1VtkvYtFWUuht9fQYgAtJTDc72xKk" />
+
+
+</head>
+<body>
+    <div id="preloader">
+    <div id="status">
+        <div class="bouncing-loader"><div></div><div></div><div></div></div>
+    </div>
+</div>
+
+    <!-- Begin page — no full-page #preloader (it waits window.load and delays FCP) -->
+    <div class="wrapper">
+
+            
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom">
+            <div class="topbar container-fluid fap-topbar">
+                <div class="d-flex align-items-center gap-lg-2 gap-1 fap-topbar__brand">
+
+                    <!-- Topbar Brand Logo -->
+                    <div class="logo-topbar">
+                        <!-- Logo light -->
+                        <a class="logo-light" href="/">
+                            <span class="logo-lg">
+                                <img src="/assets/images/logo-fptu.png" alt="FPT University" width="160" height="48" fetchpriority="high" decoding="async">
+                            </span>
+                            <span class="logo-sm">
+                                <img src="/assets/images/logo-fpt.png" alt="FPT" width="32" height="32" decoding="async">
+                            </span>
+                        </a>
+
+                        <!-- Logo Dark -->
+                        <a class="logo-dark" href="/">
+                            <span class="logo-lg">
+                                <img src="/assets/images/logo-fptu.png" alt="" width="160" height="48" loading="lazy" decoding="async">
+                            </span>
+                            <span class="logo-sm">
+                                <img src="/assets/images/logo-fpt.png" alt="" width="32" height="32" loading="lazy" decoding="async">
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Sidebar Menu Toggle Button -->
+                    <button type="button"
+                            class="button-toggle-menu"
+                            aria-label="Toggle sidebar">
+                        <i class="ri-menu-2-fill" aria-hidden="true"></i>
+                    </button>
+
+                    <!-- Horizontal Menu Toggle Button -->
+                    <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                </div>
+
+                <ul class="topbar-menu d-flex align-items-center gap-2 fap-topbar__menu">
+
+                    
+
+    <li class="dropdown jidox-campus-topbar">
+            <button type="button"
+                    class="nav-link dropdown-toggle arrow-none jidox-campus-topbar__static"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    title="C&#x1A1; s&#x1EDF; H&#xE0; N&#x1ED9;i (HN)"
+                    aria-label="Campus">
+                <i class="ri-map-pin-2-line align-middle me-0 me-sm-1"></i>
+                <span class="align-middle d-none d-lg-inline-block">C&#x1A1; s&#x1EDF; H&#xE0; N&#x1ED9;i (HN)</span>
+                <i class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated jidox-campus-topbar__menu">
+                <div class="dropdown-header noti-title py-2">
+                    <h6 class="text-overflow m-0">Campus</h6>
+                </div>
+                <div class="dropdown-item-text jidox-campus-topbar__info">
+                    <div class="jidox-campus-topbar__info-icon" aria-hidden="true">
+                        <i class="ri-building-4-line"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="fw-semibold text-body">
+                            C&#x1A1; s&#x1EDF; H&#xE0; N&#x1ED9;i (HN)
+                        </div>
+                            <div class="small text-muted">
+                                HN
+                                    <span class="text-primary"> - Ch&#xED;nh</span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </li>
+
+
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none fap-topbar-pill fap-language-toggle"
+                           data-bs-toggle="dropdown"
+                           href="#"
+                           aria-haspopup="false"
+                           aria-expanded="false"
+                           aria-label="Ch&#x1ECD;n ng&#xF4;n ng&#x1EEF;"
+                           title="Ch&#x1ECD;n ng&#xF4;n ng&#x1EEF;">
+                            <img src="/assets/images/flags/vn.jpg" alt="culture-flag" class="me-0 me-sm-1" height="12">
+                            <span class="align-middle d-none d-lg-inline-block">Ti&#x1EBF;ng Vi&#x1EC7;t</span> <i class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
+                            <form method="post" class="px-2 py-1" action="/Language/SetLanguage">
+                                <input type="hidden" name="returnUrl" value="/LecturerAttendance/Students?scheduleId=01a07c86-101c-7803-ace7-2ab0f1f74dd2" />
+                                <button type="submit" name="culture" value="vi" class="dropdown-item active">
+                                    <img src="/assets/images/flags/vn.jpg" alt="flag-vi" class="me-1" height="12"> <span class="align-middle">Tiếng Việt</span>
+                                </button>
+                                <button type="submit" name="culture" value="en" class="dropdown-item ">
+                                    <img src="/assets/images/flags/gb.jpg" alt="flag-en" class="me-1" height="12"> <span class="align-middle">English</span>
+                                </button>
+                            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8AitCzKtPz9DnOJMaD_EPKXAuSqViuSH-W2i18S0qsv9PIwhY8fXupf1HCJ23de7i6-eKjTSya6YFdb4NhJQBvWBBXGjQ6oLGgCX2g0fZtrfG_i5PK5FRBUIJnGAHo4J70-xFHEQII1NwyHIz1FhexQp0GRnyU4gDkvVsrd-dNkFlNt1dwC2zyRz_ibZtAz2sA" /></form>
+                        </div>
+                    </li>
+
+                    <li class="dropdown notification-list jidox-notification-bell"
+                        data-notification-panel="true"
+                        data-load-url="/Notification/BellList"
+                        data-unread-url="/Notification/UnreadCount"
+                        data-mark-read-url="/Notification/MarkRead"
+                        data-mark-all-read-url="/Notification/MarkReadAll"
+                        data-page-size="5"
+                        data-load-failed="Kh&#xF4;ng t&#x1EA3;i &#x111;&#x1B0;&#x1EE3;c danh s&#xE1;ch th&#xF4;ng b&#xE1;o."
+                        data-default-title="Th&#xF4;ng b&#xE1;o m&#x1EDB;i"
+                        data-just-now="V&#x1EEB;a xong"
+                        data-mark-read="&#x110;&#xE3; &#x111;&#x1ECD;c">
+                        <a class="nav-link dropdown-toggle arrow-none jidox-notification-bell__toggle fap-topbar-icon" data-bs-toggle="dropdown" data-bs-auto-close="outside" href="#" aria-haspopup="false" aria-expanded="false" aria-label="Th&#xF4;ng b&#xE1;o" title="Th&#xF4;ng b&#xE1;o">
+                            <span class="jidox-notification-bell__icon-wrap">
+                                <i class="ri-notification-4-line fs-22"></i>
+                                <span class="d-none jidox-notification-bell__badge" data-notification-badge="true"></span>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0 jidox-notification-bell__menu">
+                            <div class="jidox-notification-bell__header p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h6 class="m-0 fs-16 fw-medium">Th&#xF4;ng b&#xE1;o</h6>
+                                    <button type="button"
+                                            class="btn btn-sm btn-soft-primary ms-auto me-1 jidox-notification-bell__mark-all"
+                                            data-notification-mark-all="true">
+                                        &#x110;&#xE3; &#x111;&#x1ECD;c t&#x1EA5;t c&#x1EA3;
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div data-simplebar data-notification-list="true" class="notification-bell-list">
+                                <div class="dropdown-item text-muted">&#x110;ang t&#x1EA3;i th&#xF4;ng b&#xE1;o...</div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="d-none d-sm-inline-block">
+                        <div class="nav-link fap-topbar-icon" id="light-dark-mode">
+                            <i class="ri-moon-fill fs-22"></i>
+                        </div>
+                    </li>
+
+
+                    <li class="d-none d-md-inline-block">
+                        <a class="nav-link fap-topbar-icon" href="" data-toggle="fullscreen" aria-label="Fullscreen" title="Fullscreen">
+                            <i class="ri-fullscreen-line fs-22"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown me-md-2">
+                        <a class="nav-link dropdown-toggle arrow-none nav-user px-2 fap-topbar-user" data-bs-toggle="dropdown" href="#" aria-haspopup="false" aria-expanded="false">
+                            <span class="account-user-avatar fap-topbar-avatar" aria-hidden="true">
+                                PK
+                            </span>
+                            <span class="d-lg-flex flex-column gap-1 d-none">
+                                <h5 class="my-0">Ph&#x1EA1;m Quang Khang</h5>
+                                <h6 class="my-0 fw-normal">khangpq3</h6>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
+                            <!-- item-->
+                            <div class=" dropdown-header noti-title">
+                                <h6 class="text-overflow m-0">Ph&#x1EA1;m Quang Khang</h6>
+                                <small class="text-muted">khangpq3</small>
+                            </div>
+
+                            <!-- item-->
+                            <a class="dropdown-item" href="/Account">
+                                <i class="ri-account-circle-fill align-middle me-1"></i>
+                                <span>My Account</span>
+                            </a>
+                                <form method="post" class="px-0 mb-0" action="/Auth/Logout">
+                                    <button type="submit" class="dropdown-item border-0 bg-transparent w-100 text-start">
+                                        <i class="ri-logout-box-fill align-middle me-1"></i>
+                                        <span>&#x110;&#x103;ng xu&#x1EA5;t</span>
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8AitCzKtPz9DnOJMaD_EPKXAuSqViuSH-W2i18S0qsv9PIwhY8fXupf1HCJ23de7i6-eKjTSya6YFdb4NhJQBvWBBXGjQ6oLGgCX2g0fZtrfG_i5PK5FRBUIJnGAHo4J70-xFHEQII1NwyHIz1FhexQp0GRnyU4gDkvVsrd-dNkFlNt1dwC2zyRz_ibZtAz2sA" /></form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- ========== Topbar End ========== -->
+        <!-- ========== Left Sidebar Start ========== -->
+        
+
+<aside class="leftside-menu fap-sidebar" aria-label="Main navigation">
+    <a class="logo logo-light" href="/">
+        <span class="logo-lg">
+            <img src="/assets/images/logo-fptu.png" alt="FPT University" width="160" height="70" decoding="async">
+        </span>
+        <span class="logo-sm">
+            <img src="/assets/images/logo-fpt.png" alt="FPT" width="32" height="32" decoding="async">
+        </span>
+    </a>
+
+    <a class="logo logo-dark" aria-hidden="true" tabindex="-1" href="/">
+        <span class="logo-lg">
+            <img src="/assets/images/logo-fptu.png" alt="" width="160" height="70" loading="lazy" decoding="async">
+        </span>
+        <span class="logo-sm">
+            <img src="/assets/images/logo-fpt.png" alt="" width="32" height="32" loading="lazy" decoding="async">
+        </span>
+    </a>
+
+    <div class="button-sm-hover" data-bs-toggle="tooltip" data-bs-placement="right" title="Show Full Sidebar">
+        <i class="ri-checkbox-blank-circle-line align-middle" aria-hidden="true"></i>
+    </div>
+
+    <div class="button-close-fullsidebar" role="button" tabindex="0" aria-label="Close menu">
+        <i class="ri-close-fill align-middle" aria-hidden="true"></i>
+    </div>
+
+    <div class="h-100 fap-sidebar__scroll" id="leftside-menu-container" data-simplebar>
+        <ul class="side-nav">
+            <li class="side-nav-title mt-1">Giảng dạy</li>
+<li class="side-nav-item">
+    <a href="/TeachingSummary" class="side-nav-link">
+        <i class="ri-dashboard-line"></i>
+        <span>Tổng quan giảng dạy</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/MyClasses" class="side-nav-link">
+        <i class="ri-team-line"></i>
+        <span>Lớp của tôi</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/LecturerWeeklyTimetable" class="side-nav-link">
+        <i class="ri-calendar-2-line"></i>
+        <span>Thời khóa biểu tuần</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/LecturerRoomBooking" class="side-nav-link">
+        <i class="ri-door-open-line"></i>
+        <span>Thông tin phòng</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/LectureChange" class="side-nav-link">
+        <i class="ri-exchange-line"></i>
+        <span>Yêu cầu đổi lịch</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/LecturerAttendance" class="side-nav-link">
+        <i class="ri-checkbox-circle-line"></i>
+        <span>Điểm danh giảng viên</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/LecturerFeedback" class="side-nav-link">
+        <i class="ri-bar-chart-grouped-line"></i>
+        <span>Báo cáo feedback</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/FyeDashboard" class="side-nav-link">
+        <i class="ri-heart-pulse-line"></i>
+        <span>FYE Dashboard</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/FyeStudentRiskNote" class="side-nav-link">
+        <i class="ri-sticky-note-line"></i>
+        <span>Ghi chú SV cần chú ý</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/LecturerTeachingFeedback" class="side-nav-link">
+        <i class="ri-feedback-line"></i>
+        <span>Phản hồi giảng dạy</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/FyeLecturerMentorFeedback" class="side-nav-link">
+        <i class="ri-chat-heart-line"></i>
+        <span>Feedback Mentor FYE</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#frontend-sidebar-group-tin-tức---tài-liệu-first----0" aria-expanded="false" aria-controls="frontend-sidebar-group-tin-tức---tài-liệu-first----0" class="side-nav-link">
+        <i class="ri-newspaper-line"></i>
+        <span>Tin tức & tài liệu</span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="frontend-sidebar-group-tin-tức---tài-liệu-first----0">
+        <ul class="side-nav-second-level">
+            
+<li class="side-nav-item">
+    <a href="/News" class="side-nav-link">
+        <i class="ri-menu-line"></i>
+        <span>Tin tức</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/Document" class="side-nav-link">
+        <i class="ri-menu-line"></i>
+        <span>Tài liệu</span>
+    </a>
+</li>
+<li class="side-nav-item">
+    <a href="/Document/DrivePdf" class="side-nav-link">
+        <i class="ri-menu-line"></i>
+        <span>Hướng dẫn sử dụng</span>
+    </a>
+</li>
+        </ul>
+    </div>
+</li>
+<li class="side-nav-item">
+    <a href="/LecturerStudentLookup" class="side-nav-link">
+        <i class="ri-user-search-line"></i>
+        <span>Tra cứu thông tin sinh viên</span>
+    </a>
+</li><li class="side-nav-title mt-1">Tài khoản</li>
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#frontend-sidebar-group-cá-nhân-first----0" aria-expanded="false" aria-controls="frontend-sidebar-group-cá-nhân-first----0" class="side-nav-link">
+        <i class="ri-user-settings-line"></i>
+        <span>Cá nhân</span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="frontend-sidebar-group-cá-nhân-first----0">
+        <ul class="side-nav-second-level">
+            
+<li class="side-nav-item">
+    <a href="/Account" class="side-nav-link">
+        <i class="ri-user-star-line"></i>
+        <span>Thông tin cá nhân</span>
+    </a>
+</li>
+        </ul>
+    </div>
+</li>
+        </ul>
+    </div>
+</aside>
+
+        <!-- ========== Left Sidebar End ========== -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    
+
+                    
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box fap-page-title justify-content-between d-flex align-items-center flex-lg-row flex-column gap-2">
+            <div class="fap-page-title__main min-w-0">
+                <nav class="fap-page-title__crumb" aria-label="breadcrumb">
+                    <ol class="fap-page-title__crumb-list">
+                            <li class="fap-page-title__crumb-item">
+                                <a class="fap-page-title__crumb-link" href="/">
+                                    <i class="ri-home-5-line" aria-hidden="true"></i>
+                                    <span>Trang ch&#x1EE7;</span>
+                                </a>
+                            </li>
+                            <li class="fap-page-title__crumb-sep" aria-hidden="true">/</li>
+                        <li class="fap-page-title__crumb-item">
+                            <span class="fap-page-title__crumb-current">&#x110;i&#x1EC3;m danh sinh vi&#xEA;n</span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
+    <a class="btn btn-outline-secondary fap-back-btn" href="/LecturerAttendance"><i class="ri-arrow-left-line me-1" aria-hidden="true"></i>Quay l&#x1EA1;i danh s&#xE1;ch bu&#x1ED5;i h&#x1ECD;c</a>
+</div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row g-2 small">
+                <div class="col-md-3"><span class="text-muted">L&#x1EDB;p m&#xF4;n:</span> <span class="fw-semibold">LAB211.19 - Th&#x1EF1;c h&#xE0;nh OOP v&#x1EDB;i Java</span></div>
+                <div class="col-md-3"><span class="text-muted">Ng&#xE0;y:</span> <span class="fw-semibold">28/09/2026</span></div>
+                <div class="col-md-3"><span class="text-muted">Gi&#x1EDD;:</span> <span class="fw-semibold">07h30-09h50</span></div>
+                <div class="col-md-3"><span class="text-muted">Ph&#xF2;ng:</span> <span class="fw-semibold">DE-C205</span></div>
+                <div class="col-md-3"><span class="text-muted">S&#x129; s&#x1ED1;:</span> <span class="fw-semibold">30</span></div>
+            </div>
+        </div>
+    </div>
+        <form id="lecturer-attendance-complete-form" method="post" data-enabled="true" data-present-text="C&#xF3; m&#x1EB7;t" data-absent-text="V&#x1EAF;ng" data-complete-confirm="B&#x1EA1;n c&#xF3; ch&#x1EAF;c mu&#x1ED1;n x&#xE1;c nh&#x1EAD;n ho&#xE0;n t&#x1EA5;t &#x111;i&#x1EC3;m danh bu&#x1ED5;i h&#x1ECD;c n&#xE0;y?" data-complete-summary="" action="/LecturerAttendance/Complete">
+            
+            <input type="hidden" name="scheduleId" value="01a07c86-101c-7803-ace7-2ab0f1f74dd2" />
+
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="lecturer-attendance-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <div class="form-check mb-0">
+                                        <input type="checkbox" class="form-check-input js-attendance-show-image" id="attendance-show-image-toggle" />
+                                        <label class="form-check-label" for="attendance-show-image-toggle">Hi&#x1EC7;n &#x1EA3;nh</label>
+                                    </div>
+                                </th>
+                                <th scope="col">M&#xE3; sinh vi&#xEA;n</th>
+                                <th scope="col">T&#xEA;n sinh vi&#xEA;n</th>
+                                <th scope="col" class="text-center">V&#x1EAF;ng</th>
+                                <th scope="col" class="text-center">C&#xF3; m&#x1EB7;t</th>
+                                <th scope="col">Ph&#x1EE5; &#x111;&#x1EA1;o</th>
+                                <th scope="col">Ghi ch&#xFA;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-student-id="01a07c76-6d34-7e8e-85c3-01d9ee2b4be9">
+                                    <td class="text-muted">1</td>
+                                    <td>
+                                            <img src="" data-src="159832_Qy2MIZbhvyy8y4wBJEsLEx999mhf0kmf7TwJGYB_r1I_token.jpg" alt="Nguy&#x1EC5;n H&#x1ED3;ng Ph&#xFA;c" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE141168</td>
+                                    <td>Nguy&#x1EC5;n H&#x1ED3;ng Ph&#xFA;c</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[0].StudentId" value="01a07c76-6d34-7e8e-85c3-01d9ee2b4be9" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_0_Status_Absent"
+                                                   name="students[0].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_0_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_0_Status_Present"
+                                                   name="students[0].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_0_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[0].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[0].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[0].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-6d40-7514-9cde-8243a5baa110">
+                                    <td class="text-muted">2</td>
+                                    <td>
+                                            <img src="" data-src="160597_wQ5VrBlCKgQv833VUsqCnRFW6_m42rJ12W82zPcc8Hk_token.jpg" alt="Nguy&#x1EC5;n Ph&#x1B0;&#x1A1;ng Uy&#xEA;n" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE150294</td>
+                                    <td>Nguy&#x1EC5;n Ph&#x1B0;&#x1A1;ng Uy&#xEA;n</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[1].StudentId" value="01a07c76-6d40-7514-9cde-8243a5baa110" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_1_Status_Absent"
+                                                   name="students[1].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_1_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_1_Status_Present"
+                                                   name="students[1].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_1_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[1].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[1].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[1].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7408-7182-884c-84e017b3b685">
+                                    <td class="text-muted">3</td>
+                                    <td>
+                                            <img src="" data-src="164773_zuj7ziG6JuHT5CLRZ6-wzXY7iKht056qiRnl7_qMGIM_token.jpg" alt="Nguy&#x1EC5;n M&#x1EA1;nh S&#x1A1;n" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE164052</td>
+                                    <td>Nguy&#x1EC5;n M&#x1EA1;nh S&#x1A1;n</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[2].StudentId" value="01a07c76-7408-7182-884c-84e017b3b685" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_2_Status_Absent"
+                                                   name="students[2].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_2_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_2_Status_Present"
+                                                   name="students[2].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_2_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[2].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[2].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[2].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7701-7abe-86b3-b05abd52a06f">
+                                    <td class="text-muted">4</td>
+                                    <td>
+                                            <img src="" data-src="165939_t5A9Wc2Se6F03xWVEsY6xVjF4NkxccbQnGTTIidqY44_token.jpg" alt="Nguy&#x1EC5;n C&#xF4;ng H&#x1EA3;i" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE171213</td>
+                                    <td>Nguy&#x1EC5;n C&#xF4;ng H&#x1EA3;i</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[3].StudentId" value="01a07c76-7701-7abe-86b3-b05abd52a06f" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_3_Status_Absent"
+                                                   name="students[3].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_3_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_3_Status_Present"
+                                                   name="students[3].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_3_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[3].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[3].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[3].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7704-7fbd-bce8-a2286ffd2c51">
+                                    <td class="text-muted">5</td>
+                                    <td>
+                                            <img src="" data-src="166100_ngU-6J6uqVSKG9Zii_3ToTIS0U2tJiXbFOv7rv6ymDE_token.jpg" alt="Nguy&#x1EC5;n Xu&#xE2;n Hi&#x1EC7;p" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE171388</td>
+                                    <td>Nguy&#x1EC5;n Xu&#xE2;n Hi&#x1EC7;p</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[4].StudentId" value="01a07c76-7704-7fbd-bce8-a2286ffd2c51" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_4_Status_Absent"
+                                                   name="students[4].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_4_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_4_Status_Present"
+                                                   name="students[4].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_4_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[4].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[4].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[4].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-773b-7975-84ec-8e78ab4cbd46">
+                                    <td class="text-muted">6</td>
+                                    <td>
+                                            <img src="" data-src="166353_KDjYdvlKoOtqbqVfBs8f8tL9ubS9YHTALKRVWb-HUIg_token.jpg" alt="Tr&#x1EA7;n Trung D&#x169;ng" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE171658</td>
+                                    <td>Tr&#x1EA7;n Trung D&#x169;ng</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[5].StudentId" value="01a07c76-773b-7975-84ec-8e78ab4cbd46" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_5_Status_Absent"
+                                                   name="students[5].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_5_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_5_Status_Present"
+                                                   name="students[5].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_5_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[5].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[5].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[5].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-774c-73e2-9eef-2be6b7d22643">
+                                    <td class="text-muted">7</td>
+                                    <td>
+                                            <img src="" data-src="167470_Wy0d_S2QR81IaaqIhUFdZerUbudCqmkRvCcp9NmXvpo_token.jpg" alt="Nguy&#x1EC5;n Xu&#xE2;n Kh&#xE1;nh" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE172843</td>
+                                    <td>Nguy&#x1EC5;n Xu&#xE2;n Kh&#xE1;nh</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[6].StudentId" value="01a07c76-774c-73e2-9eef-2be6b7d22643" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_6_Status_Absent"
+                                                   name="students[6].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_6_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_6_Status_Present"
+                                                   name="students[6].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_6_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[6].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[6].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[6].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a4e-79c0-8e8a-3d4e88eaa859">
+                                    <td class="text-muted">8</td>
+                                    <td>
+                                            <img src="" data-src="167812_OFinknioblM-ywDkKwA15nuCIwd58GUryIqXHWd0oaM_token.jpg" alt="Ng&#xF4; Ti&#x1EBF;n Th&#xE0;nh" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE173315</td>
+                                    <td>Ng&#xF4; Ti&#x1EBF;n Th&#xE0;nh</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[7].StudentId" value="01a07c76-7a4e-79c0-8e8a-3d4e88eaa859" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_7_Status_Absent"
+                                                   name="students[7].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_7_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_7_Status_Present"
+                                                   name="students[7].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_7_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[7].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[7].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[7].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a52-7576-852b-e169c389ca4c">
+                                    <td class="text-muted">9</td>
+                                    <td>
+                                            <img src="" data-src="168113_k10F3xpoEkI7EqDSUL5_YvxK-K9lhvb9u3YsmJc5-zw_token.jpg" alt="B&#xF9;i Nh&#x1EA5;t Qu&#xED;" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE176033</td>
+                                    <td>B&#xF9;i Nh&#x1EA5;t Qu&#xED;</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[8].StudentId" value="01a07c76-7a52-7576-852b-e169c389ca4c" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_8_Status_Absent"
+                                                   name="students[8].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_8_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_8_Status_Present"
+                                                   name="students[8].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_8_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[8].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[8].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[8].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a5d-7001-8726-0e091d105522">
+                                    <td class="text-muted">10</td>
+                                    <td>
+                                            <img src="" data-src="168822_DR7OOYgw0QgcO4TtwUjWH0opeOhfQvedQLnl-KyR3SY_token.jpg" alt="Ho&#xE0;ng Quang Huy" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE176755</td>
+                                    <td>Ho&#xE0;ng Quang Huy</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[9].StudentId" value="01a07c76-7a5d-7001-8726-0e091d105522" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_9_Status_Absent"
+                                                   name="students[9].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_9_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_9_Status_Present"
+                                                   name="students[9].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_9_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[9].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[9].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[9].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a61-7ad8-bca9-1d9f0309e5d3">
+                                    <td class="text-muted">11</td>
+                                    <td>
+                                            <img src="" data-src="169118_kesy6C9ta2ByjZCfNOJ37E8LFoKnJ3AJzAGzAexFGZQ_token.jpg" alt="Nguy&#x1EC5;n &#x110;&#xEC;nh Duy" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180130</td>
+                                    <td>Nguy&#x1EC5;n &#x110;&#xEC;nh Duy</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[10].StudentId" value="01a07c76-7a61-7ad8-bca9-1d9f0309e5d3" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_10_Status_Absent"
+                                                   name="students[10].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_10_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_10_Status_Present"
+                                                   name="students[10].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_10_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[10].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[10].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[10].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a63-7916-8c71-7743d591e437">
+                                    <td class="text-muted">12</td>
+                                    <td>
+                                            <img src="" data-src="169297_vGaWtvV6kLQ7vyeDbqyh7Ywz4SUB0tmZ8SbohID4uf4_token.jpg" alt="Nguy&#x1EC5;n Ti&#x1EBF;n &#x110;&#x1EA1;t" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180313</td>
+                                    <td>Nguy&#x1EC5;n Ti&#x1EBF;n &#x110;&#x1EA1;t</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[11].StudentId" value="01a07c76-7a63-7916-8c71-7743d591e437" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_11_Status_Absent"
+                                                   name="students[11].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_11_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_11_Status_Present"
+                                                   name="students[11].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_11_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[11].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[11].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[11].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a65-74d3-a47a-86f9281c0323">
+                                    <td class="text-muted">13</td>
+                                    <td>
+                                            <img src="" data-src="169386_gRbOGjErnLEEArlAP0PVG786fpHI_PM4pKdF1_a28xE_token.jpg" alt="Ho&#xE0;ng Minh Ti&#x1EBF;n" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180398</td>
+                                    <td>Ho&#xE0;ng Minh Ti&#x1EBF;n</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[12].StudentId" value="01a07c76-7a65-74d3-a47a-86f9281c0323" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_12_Status_Absent"
+                                                   name="students[12].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_12_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_12_Status_Present"
+                                                   name="students[12].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_12_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[12].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[12].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[12].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a67-759f-8007-221d79d12a18">
+                                    <td class="text-muted">14</td>
+                                    <td>
+                                            <img src="" data-src="169485_qNb84t9avOa0rXdvTIndnHMcZomAkfZSPBUUz5P7eXg_token.jpg" alt="&#x110;&#x1ED3;ng Ph&#xFA; Ngh&#x129;a" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180494</td>
+                                    <td>&#x110;&#x1ED3;ng Ph&#xFA; Ngh&#x129;a</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[13].StudentId" value="01a07c76-7a67-759f-8007-221d79d12a18" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_13_Status_Absent"
+                                                   name="students[13].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_13_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_13_Status_Present"
+                                                   name="students[13].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_13_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[13].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[13].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[13].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7a67-799a-839a-32e890f8ab52">
+                                    <td class="text-muted">15</td>
+                                    <td>
+                                            <img src="" data-src="169538_ZFa8dUkyHDrINuBa7DBftqhmIbHkmrYTlXGjZ3dv4Dw_token.jpg" alt="B&#xF9;i Quang Long" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180553</td>
+                                    <td>B&#xF9;i Quang Long</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[14].StudentId" value="01a07c76-7a67-799a-839a-32e890f8ab52" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_14_Status_Absent"
+                                                   name="students[14].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_14_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_14_Status_Present"
+                                                   name="students[14].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_14_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[14].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[14].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[14].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d77-7a14-9cf0-b93c231079dc">
+                                    <td class="text-muted">16</td>
+                                    <td>
+                                            <img src="" data-src="169606_nsc4W-gbTs_kSi7-Kau6uHqlK5M4e6nBqKgx3MYQ_y0_token.jpg" alt="L&#xEA; Anh Minh" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180621</td>
+                                    <td>L&#xEA; Anh Minh</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[15].StudentId" value="01a07c76-7d77-7a14-9cf0-b93c231079dc" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_15_Status_Absent"
+                                                   name="students[15].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_15_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_15_Status_Present"
+                                                   name="students[15].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_15_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[15].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[15].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[15].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d7a-77f9-aa3f-9368b768e801">
+                                    <td class="text-muted">17</td>
+                                    <td>
+                                            <img src="" data-src="169709_qImzlijXfhCgJSb4rWiMrTsCI71z1uqOYpdW2bbbhqo_token.jpg" alt="Nguy&#x1EC5;n Ng&#x1ECD;c S&#x1A1;n" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180720</td>
+                                    <td>Nguy&#x1EC5;n Ng&#x1ECD;c S&#x1A1;n</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[16].StudentId" value="01a07c76-7d7a-77f9-aa3f-9368b768e801" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_16_Status_Absent"
+                                                   name="students[16].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_16_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_16_Status_Present"
+                                                   name="students[16].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_16_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[16].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[16].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[16].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d7b-77c3-a213-16ab2d05b540">
+                                    <td class="text-muted">18</td>
+                                    <td>
+                                            <img src="" data-src="169733_xAGOcwGrNW016AKYGEWjgDMaQbDdpjBnab4kGyexH6Q_token.jpg" alt="&#x110;o&#xE0;n Nguy&#x1EC5;n Quang Anh" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE180752</td>
+                                    <td>&#x110;o&#xE0;n Nguy&#x1EC5;n Quang Anh</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[17].StudentId" value="01a07c76-7d7b-77c3-a213-16ab2d05b540" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_17_Status_Absent"
+                                                   name="students[17].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_17_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_17_Status_Present"
+                                                   name="students[17].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_17_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input" type="checkbox"  disabled />
+                                            </div>
+                                            <input type="hidden" name="students[17].Retutoring" value="false" />
+                                    </td>
+                                    <td>
+                                            <div class="small text-muted">Mi&#x1EC5;n &#x111;i&#x1EC3;m danh</div>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[17].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d87-7671-8ace-c0835f8ae4e5">
+                                    <td class="text-muted">19</td>
+                                    <td>
+                                            <img src="" data-src="170133_B58oaQwYmDD1krORvLsVIQV9R9v4iew4AfG3KnssjzU_token.jpg" alt="Mai V&#x103;n Ngh&#x129;a" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE181156</td>
+                                    <td>Mai V&#x103;n Ngh&#x129;a</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[18].StudentId" value="01a07c76-7d87-7671-8ace-c0835f8ae4e5" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_18_Status_Absent"
+                                                   name="students[18].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_18_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_18_Status_Present"
+                                                   name="students[18].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_18_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[18].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[18].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[18].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d89-7b35-b7c0-fea1a363b2db">
+                                    <td class="text-muted">20</td>
+                                    <td>
+                                            <img src="" data-src="170292_89_x6M43qOJLwV5LnLhkXaKOxX2NA2DBtdxju87Kgs0_token.jpg" alt="L&#xEA; Ti&#x1EBF;n &#x110;&#x1EA1;t" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE181318</td>
+                                    <td>L&#xEA; Ti&#x1EBF;n &#x110;&#x1EA1;t</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[19].StudentId" value="01a07c76-7d89-7b35-b7c0-fea1a363b2db" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_19_Status_Absent"
+                                                   name="students[19].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_19_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_19_Status_Present"
+                                                   name="students[19].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_19_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[19].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[19].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[19].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d91-77d2-9cf0-b7f8306c5aa0">
+                                    <td class="text-muted">21</td>
+                                    <td>
+                                            <img src="" data-src="170754_m_VZTi1d4pw5DyqBX1vO_0PGIMmMQ-ICfNct0VAWJBM_token.jpg" alt="Ho&#xE0;ng Minh Ph&#xFA;c" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE181781</td>
+                                    <td>Ho&#xE0;ng Minh Ph&#xFA;c</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[20].StudentId" value="01a07c76-7d91-77d2-9cf0-b7f8306c5aa0" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_20_Status_Absent"
+                                                   name="students[20].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_20_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_20_Status_Present"
+                                                   name="students[20].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_20_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[20].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[20].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[20].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-7d9d-7330-b2bd-ab8ab57574df">
+                                    <td class="text-muted">22</td>
+                                    <td>
+                                            <img src="" data-src="171465_yO06o9RpZ2P61FTvW1emAZpa3Nh3FLvDH8ISW-1Mf6Q_token.jpg" alt="Nguy&#x1EC5;n V&#x169; &#x110;&#x1EE9;c" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE182533</td>
+                                    <td>Nguy&#x1EC5;n V&#x169; &#x110;&#x1EE9;c</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[21].StudentId" value="01a07c76-7d9d-7330-b2bd-ab8ab57574df" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_21_Status_Absent"
+                                                   name="students[21].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_21_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_21_Status_Present"
+                                                   name="students[21].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_21_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[21].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[21].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[21].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-8112-7ce6-b878-f7e5ca7a87a3">
+                                    <td class="text-muted">23</td>
+                                    <td>
+                                            <img src="" data-src="171600_le7E5pDZkwmhgEz5LX1lqSJG6ZNNl0l2DOCw6kdXruo_token.jpg" alt="Nguy&#x1EC5;n M&#x1EA1;nh Trung" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE186069</td>
+                                    <td>Nguy&#x1EC5;n M&#x1EA1;nh Trung</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[22].StudentId" value="01a07c76-8112-7ce6-b878-f7e5ca7a87a3" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_22_Status_Absent"
+                                                   name="students[22].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_22_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_22_Status_Present"
+                                                   name="students[22].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_22_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[22].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[22].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[22].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-811a-7042-ae3b-1728186c4931">
+                                    <td class="text-muted">24</td>
+                                    <td>
+                                            <img src="" data-src="172021_4ULBgJTj4nxcPsWrxKgtWAakeQvdUaKWW9cby5C7ano_token.jpg" alt="Th&#xE2;n V&#x103;n Th&#xE0;nh" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE186508</td>
+                                    <td>Th&#xE2;n V&#x103;n Th&#xE0;nh</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[23].StudentId" value="01a07c76-811a-7042-ae3b-1728186c4931" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_23_Status_Absent"
+                                                   name="students[23].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_23_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_23_Status_Present"
+                                                   name="students[23].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_23_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[23].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[23].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[23].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-8143-7f47-80e2-d624eaa4e79f">
+                                    <td class="text-muted">25</td>
+                                    <td>
+                                            <img src="" data-src="172898_WYJB3QKWMRkXvGrdQoW62Hh-sdEowX8QOD2nmgWMS6M_token.jpg" alt="Nguy&#x1EC5;n H&#x1EA3;i &#x110;&#x103;ng" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE187409</td>
+                                    <td>Nguy&#x1EC5;n H&#x1EA3;i &#x110;&#x103;ng</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[24].StudentId" value="01a07c76-8143-7f47-80e2-d624eaa4e79f" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_24_Status_Absent"
+                                                   name="students[24].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_24_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_24_Status_Present"
+                                                   name="students[24].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_24_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[24].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[24].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[24].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-84b1-7990-a96d-4238cdb03912">
+                                    <td class="text-muted">26</td>
+                                    <td>
+                                            <img src="" data-src="174007_bdumbYRJYe64GLlJ_geRDKRy1YSqhSX5VIGqdAqMBmk_token.jpg" alt="B&#xEC; Tr&#xED; Th&#xE0;nh" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE191093</td>
+                                    <td>B&#xEC; Tr&#xED; Th&#xE0;nh</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[25].StudentId" value="01a07c76-84b1-7990-a96d-4238cdb03912" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_25_Status_Absent"
+                                                   name="students[25].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_25_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_25_Status_Present"
+                                                   name="students[25].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_25_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[25].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[25].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[25].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-84ba-7c53-b2f4-da61df645f1a">
+                                    <td class="text-muted">27</td>
+                                    <td>
+                                            <img src="" data-src="174643_rorBMju-FNBdIgiVneQeWQYfk087MqXHgyVotDyPgkE_token.jpg" alt="Nguy&#x1EC5;n Ph&#xFA;c Ho&#xE0;ng V&#x169;" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE191760</td>
+                                    <td>Nguy&#x1EC5;n Ph&#xFA;c Ho&#xE0;ng V&#x169;</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[26].StudentId" value="01a07c76-84ba-7c53-b2f4-da61df645f1a" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_26_Status_Absent"
+                                                   name="students[26].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_26_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_26_Status_Present"
+                                                   name="students[26].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_26_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[26].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[26].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[26].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-8811-7725-9176-799eae82f926">
+                                    <td class="text-muted">28</td>
+                                    <td>
+                                            <img src="" data-src="175868_QLOsenO52QOO5hJL7L97vSVtIbxbKlvkkQG5rrLcNiU_token.jpg" alt="Tr&#x1EA7;n &#x110;&#x1EE9;c To&#xE0;n" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE195075</td>
+                                    <td>Tr&#x1EA7;n &#x110;&#x1EE9;c To&#xE0;n</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[27].StudentId" value="01a07c76-8811-7725-9176-799eae82f926" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_27_Status_Absent"
+                                                   name="students[27].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_27_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_27_Status_Present"
+                                                   name="students[27].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_27_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[27].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[27].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[27].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-8aea-7134-834f-4bfcd0da0b7b">
+                                    <td class="text-muted">29</td>
+                                    <td>
+                                            <img src="" data-src="178775_FqVLcpUl-DD76itCbKIWZp5UCApD4ccakoJIzkXv5q4_token.jpg" alt="Nguy&#x1EC5;n L&#xEA; Th&#x1EBF; H&#xF9;ng" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">HE204841</td>
+                                    <td>Nguy&#x1EC5;n L&#xEA; Th&#x1EBF; H&#xF9;ng</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[28].StudentId" value="01a07c76-8aea-7134-834f-4bfcd0da0b7b" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_28_Status_Absent"
+                                                   name="students[28].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_28_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_28_Status_Present"
+                                                   name="students[28].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_28_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[28].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[28].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[28].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                                <tr data-student-id="01a07c76-a73e-7ee5-93ed-0a05fa863413">
+                                    <td class="text-muted">30</td>
+                                    <td>
+                                            <img src="" data-src="192522_v8KWdWqK8z4JbQ6fxHEfHiWlQ32bD5SpPJibqdhyv_A_token.jpg" alt="&#x110;&#x1ED7; Thi&#x323; Dung" class="attendance-student-image rounded d-none js-attendance-student-image" />
+                                    </td>
+                                    <td class="fw-semibold">QE180105</td>
+                                    <td>&#x110;&#x1ED7; Thi&#x323; Dung</td>
+                                    <td class="text-center">
+                                        <input type="hidden" name="students[29].StudentId" value="01a07c76-a73e-7ee5-93ed-0a05fa863413" />
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_29_Status_Absent"
+                                                   name="students[29].Status"
+                                                   value="false"
+                                                   class="form-check-input js-attendance-status"
+                                                   checked
+                                                    />
+                                            <label class="form-check-label" for="students_29_Status_Absent">V&#x1EAF;ng</label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-inline-block mb-0">
+                                            <input type="radio"
+                                                   id="students_29_Status_Present"
+                                                   name="students[29].Status"
+                                                   value="true"
+                                                   class="form-check-input js-attendance-status"
+                                                   
+                                                    />
+                                            <label class="form-check-label" for="students_29_Status_Present">C&#xF3; m&#x1EB7;t</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input js-attendance-retutoring"
+                                                       type="checkbox"
+                                                       name="students[29].Retutoring"
+                                                       value="true"
+                                                       
+                                                        />
+                                                <input type="hidden" name="students[29].Retutoring" value="false" />
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm js-attendance-comment" name="students[29].Comment" maxlength="300"  />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card border-0 shadow-sm mt-3">
+                    <div class="card-body d-flex justify-content-center gap-2">
+                        <button type="button"
+                                class="btn btn-success"
+                                data-bs-toggle="modal"
+                                data-bs-target="#lecturer-attendance-complete-modal">
+                            Ho&#xE0;n t&#x1EA5;t &#x111;i&#x1EC3;m danh
+                        </button>
+                    </div>
+                </div>
+        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8AitCzKtPz9DnOJMaD_EPKXAuSqViuSH-W2i18S0qsv9PIwhY8fXupf1HCJ23de7i6-eKjTSya6YFdb4NhJQBvWBBXGjQ6oLGgCX2g0fZtrfG_i5PK5FRBUIJnGAHo4J70-xFHEQII1NwyHIz1FhexQp0GRnyU4gDkvVsrd-dNkFlNt1dwC2zyRz_ibZtAz2sA" /></form>
+        <div class="modal fade" id="lecturer-attendance-complete-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">X&#xE1;c nh&#x1EAD;n ho&#xE0;n t&#x1EA5;t &#x111;i&#x1EC3;m danh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="&#x110;&#xF3;ng"></button>
+                    </div>
+                    <div class="modal-body">B&#x1EA1;n c&#xF3; ch&#x1EAF;c mu&#x1ED1;n x&#xE1;c nh&#x1EAD;n ho&#xE0;n t&#x1EA5;t &#x111;i&#x1EC3;m danh bu&#x1ED5;i h&#x1ECD;c n&#xE0;y?</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">&#x110;&#xF3;ng</button>
+                        <button type="submit" class="btn btn-success" form="lecturer-attendance-complete-form">
+                            X&#xE1;c nh&#x1EAD;n
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="lecturer-attendance-summary-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Th&#x1ED1;ng k&#xEA; &#x111;i&#x1EC3;m danh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="&#x110;&#xF3;ng"></button>
+                    </div>
+                    <div class="modal-body js-attendance-summary-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">&#x110;&#xF3;ng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                </div>
+                <!-- container -->
+
+            </div>
+            <!-- content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="list-inline-item">
+                                B&#x1EA3;n quy&#x1EC1;n &#xA9; 2026
+                                <a href="." class="link-secondary">FAP - Tr&#x1B0;&#x1EDD;ng &#x111;&#x1EA1;i h&#x1ECD;c FPT</a>. &#x110;&#xE3; &#x111;&#x103;ng k&#xFD; b&#x1EA3;n quy&#x1EC1;n.
+                            </span>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <span class="list-inline-item">
+                                <span class="text-secondary">Phi&#xEA;n b&#x1EA3;n: 2.0.0.0</span>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+    <div class="modal fade" id="addUpdateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Loading</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center py-4">
+                    <span class="spinner-border text-primary" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div id="web-notification-config"
+         class="d-none"
+         data-is-authenticated="True"
+         data-user-id="01a0dfa6-6656-7a17-ac74-2eb587fd8a26"
+         data-prompt-after-login="False"
+         data-login-registration-id=""
+         data-sync-url="/Notification/SyncWebDevice"
+         data-request-verification-token="CfDJ8AitCzKtPz9DnOJMaD_EPKXAuSqViuSH-W2i18S0qsv9PIwhY8fXupf1HCJ23de7i6-eKjTSya6YFdb4NhJQBvWBBXGjQ6oLGgCX2g0fZtrfG_i5PK5FRBUIJnGAHo4J70-xFHEQII1NwyHIz1FhexQp0GRnyU4gDkvVsrd-dNkFlNt1dwC2zyRz_ibZtAz2sA"
+         data-ask-permission-title="Cho ph&#xE9;p nh&#x1EAD;n th&#xF4;ng b&#xE1;o"
+         data-ask-permission="B&#x1EA1;n c&#xF3; mu&#x1ED1;n b&#x1EAD;t th&#xF4;ng b&#xE1;o &#x111;&#x1EA9;y &#x111;&#x1EC3; nh&#x1EAD;n th&#xF4;ng tin h&#x1ECD;c t&#x1EAD;p m&#x1EDB;i nh&#x1EA5;t kh&#xF4;ng?"
+         data-permission-granted="&#x110;&#xE3; cho ph&#xE9;p th&#xF4;ng b&#xE1;o"
+         data-permission-denied="&#x110;&#xE3; ch&#x1EB7;n th&#xF4;ng b&#xE1;o"
+         data-permission-default="Ch&#x1B0;a ch&#x1ECD;n quy&#x1EC1;n th&#xF4;ng b&#xE1;o"
+         data-permission-unsupported="Tr&#xEC;nh duy&#x1EC7;t kh&#xF4;ng h&#x1ED7; tr&#x1EE3; th&#xF4;ng b&#xE1;o"
+         data-notification-default-title="Th&#xF4;ng b&#xE1;o m&#x1EDB;i"
+         data-notification-just-now="V&#x1EEB;a xong"
+         data-token-unavailable="&#x110;&#xE3; c&#x1EA5;p quy&#x1EC1;n nh&#x1B0;ng ch&#x1B0;a l&#x1EA5;y &#x111;&#x1B0;&#x1EE3;c m&#xE3; thi&#x1EBF;t b&#x1ECB; nh&#x1EAD;n push. Vui l&#xF2;ng t&#x1EA3;i l&#x1EA1;i trang v&#xE0; th&#x1EED; l&#x1EA1;i."
+         data-debug-log-enabled="False"
+         data-firebase-web-enabled="True"
+         data-firebase-api-key="AIzaSyCljdncb1LSzEd6zL2SpDbv5LuCYznkBPg"
+         data-firebase-auth-domain="fap2-4e93d.firebaseapp.com"
+         data-firebase-project-id="fap2-4e93d"
+         data-firebase-storage-bucket="fap2-4e93d.firebasestorage.app"
+         data-firebase-messaging-sender-id="937614397244"
+         data-firebase-app-id="1:937614397244:web:039cc356a5a8d0668fd839"
+         data-firebase-measurement-id="G-TTP0LDTT2T"
+         data-firebase-vapid-key="BGSZcRlhfyr5eMEsQ8B35skZr49CYAXadIqSPWLC0HimS4_v7VBko_EOMhBKzbZk4upcIG9DbYP6OJYKqEwtmIY"
+         data-firebase-service-worker-path="/firebase-messaging-sw.js">
+    </div>
+   
+        
+    <!-- Core JS at end of body: parse HTML/CSS first; order kept for jQuery plugins -->
+    <script src="/assets/vendor/jidox/vendor.min.js?v=pE5cLORtU80Ttpd1IgjN6PaO6DY8HJ_mqUpKkC3fhEk"></script>
+    <script src="/assets/vendor/flatpickr/flatpickr.min.js?v=Huqxy3eUcaCwqqk92RwusapTfWlvAasF6p2rxV6FJaE"></script>
+    <script src="/assets/vendor/flatpickr/l10n/vn.js?v=0Nx1JjwPrTqvu7uGuE1ZsZtowl96PYRTwUZBF4-Jo5o"></script>
+    <script src="/assets/vendor/jquery-toast-plugin/jquery.toast.min.js?v=56zsTlMwzGRtLC4t51alLh5cKYvi0hnbhEXQTVU_zZQ"></script>
+    <script src="/assets/vendor/jidox/js/app.min.js?v=BIJbXOxCPUvXa4Bmw48I0WaZQfxZA27Sv-NOImdZBnI"></script>
+    <script src="/js/app-toast.js?v=gvbmQm4sdn6O_zDNOCceGD7uQGmygr3lBIbaJn-v_wY"></script>
+    <script src="/js/base.js?v=UHlindLb2GSDJUoou-BgAjl_yjtVBfPoL4zkydiqaSo"></script>
+    <script src="/js/fap-table-cards.js?v=fZccAWmFCNunU6pzKDZ66TnHhBbEEC9-BWQC6QSVGzw"></script>
+    <script src="/js/sidebar-state.js?v=AgcZ49v-MavScRi2Pggh13aE4NLzTFQWU_OsHkw9t_U"></script>
+        <script src="/js/lazy-firebase-loader.js?v=hoaaAA23GqjSku_mzcDu02mnktGgyamVEYD27AGLtMg" defer></script>
+        <script src="/js/fap-notification-payload.js?v=eLg4VrGRJ5PPiHHTVJGhkxbnzu_Lc0Dy7O0CZuiYql8" defer></script>
+        <script src="/js/web-notification-device.js?v=xMSk1S7qATX2qzgsEm-sjcIYg714Xx93DDUR-yu6KGA" defer></script>
+        <script src="/js/notification-bell.js?v=AY0k-4Nruxb_HLHr0aGzQjztpKE5fB1YQ70BOiFZTsE" defer></script>
+
+    
+    <script src="/js/pages/lecturer-attendance-students.js?v=PGhkwCUJijq21Yc8bpQL4CX5eK-hzujsmncPqjVNCZw"></script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"56c6dd7e4ecf4947aa540f48289e45af","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
+

@@ -1,6 +1,6 @@
 (async () => {
-  const TABLE_ID = "ctl00_mainContent_gvAttendance";
-  const SAVE_ID = "ctl00_mainContent_btnSave";
+  const TABLE_ID = "lecturer-attendance-table";
+  const SAVE_ID = null;
 
   // =========================
   // TẠO POPUP
@@ -267,17 +267,17 @@ SE22xxxx"
     }
 
     return [
-      ...table.querySelectorAll("tr")
+      ...table.querySelectorAll("tbody tr")
     ].filter(row => {
 
       const present =
         row.querySelector(
-          'input[type="radio"][id$="_rdPresent"]'
+          'input[type="radio"][name*="Status"][value="true"]'
         );
 
       const absent =
         row.querySelector(
-          'input[type="radio"][id$="_rdAbsent"]'
+          'input[type="radio"][name*="Status"][value="false"]'
         );
 
       return present && absent;
@@ -290,21 +290,8 @@ SE22xxxx"
   // =========================
 
   function extractRollNumber(row) {
-    const cells = Array.from(row.querySelectorAll("td, th"));
-    const exactMatch = cells
-      .map(cell => cell.textContent.trim())
-      .find(value => /^(?:SE|HE|SD|PE|CE|TE)\d{4,}$/i.test(value));
-
-    if (exactMatch) {
-      return exactMatch.toUpperCase();
-    }
-
-    const tokenMatch = row.textContent
-      .trim()
-      .split(/\s+/)
-      .find(token => /^(?:SE|HE|SD|PE|CE|TE)\d{4,}$/i.test(token));
-
-    return tokenMatch ? tokenMatch.toUpperCase() : null;
+    const codeCell = row.querySelector("td.fw-semibold");
+    return codeCell ? codeCell.textContent.trim() : null;
   }
 
   function copyText(value) {
@@ -353,7 +340,7 @@ SE22xxxx"
     for (const row of rows) {
       const present =
         row.querySelector(
-          'input[type="radio"][id$="_rdPresent"]'
+          'input[type="radio"][name*="Status"][value="true"]'
         );
 
       if (!present?.checked) {
@@ -389,20 +376,34 @@ SE22xxxx"
       setTimeout(resolve, 500)
     );
 
-    const saveBtn =
-      document.getElementById(SAVE_ID);
+    const completeBtn = document.querySelector(
+      'button[data-bs-target="#lecturer-attendance-complete-modal"]'
+    );
 
-    if (saveBtn) {
-
-      saveBtn.click();
-
+    if (completeBtn) {
+      completeBtn.click();
       status.textContent +=
-        "\n\n✓ Đã click Save.";
+        "\n\n✓ Đã click nút Hoàn tất điểm danh.";
 
+      await new Promise(resolve =>
+        setTimeout(resolve, 300)
+      );
+
+      const confirmBtn = document.querySelector(
+        'button[form="lecturer-attendance-complete-form"]'
+      );
+
+      if (confirmBtn) {
+        confirmBtn.click();
+        status.textContent +=
+          "\n✓ Đã xác nhận hoàn tất điểm danh.";
+      } else {
+        status.textContent +=
+          "\n⚠️ Không tìm thấy nút Xác nhận.";
+      }
     } else {
-
       status.textContent +=
-        "\n\n⚠️ Không tìm thấy nút Save.";
+        "\n\n⚠️ Không tìm thấy nút Hoàn tất điểm danh.";
     }
   }
 
@@ -464,12 +465,12 @@ SE22xxxx"
 
       const present =
         row.querySelector(
-          'input[type="radio"][id$="_rdPresent"]'
+          'input[type="radio"][name*="Status"][value="true"]'
         );
 
       const absent =
         row.querySelector(
-          'input[type="radio"][id$="_rdAbsent"]'
+          'input[type="radio"][name*="Status"][value="false"]'
         );
 
 
@@ -608,7 +609,7 @@ SE22xxxx"
 
       const present =
         row.querySelector(
-          'input[type="radio"][id$="_rdPresent"]'
+          'input[type="radio"][name*="Status"][value="true"]'
         );
 
       if (!present) {
