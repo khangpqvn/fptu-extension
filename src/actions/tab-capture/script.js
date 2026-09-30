@@ -55,6 +55,38 @@
 
   header.append(title, closeButton);
 
+  const audioOptions = document.createElement('fieldset');
+  audioOptions.style.cssText = [
+    'margin:12px 0 0',
+    'padding:8px 10px',
+    'border:1px solid #45475a',
+    'border-radius:6px',
+  ].join(';');
+
+  const audioLegend = document.createElement('legend');
+  audioLegend.textContent = 'Âm thanh ghi hình';
+  audioLegend.style.cssText = 'padding:0 4px;color:#f5c2e7;font-size:12px;';
+
+  function createAudioOption(label, checked) {
+    const row = document.createElement('label');
+    row.style.cssText = 'display:flex;align-items:center;gap:7px;margin:4px 0;cursor:pointer;';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = checked;
+    checkbox.setAttribute('aria-label', label);
+    row.append(checkbox, document.createTextNode(label));
+    audioOptions.append(row);
+    return checkbox;
+  }
+
+  audioOptions.append(audioLegend);
+  const tabAudioCheckbox = createAudioOption('Âm thanh tab', true);
+  const microphoneCheckbox = createAudioOption('Microphone', false);
+  const audioNote = document.createElement('div');
+  audioNote.textContent = 'Chrome sẽ hỏi quyền khi bật microphone.';
+  audioNote.style.cssText = 'margin-top:6px;color:#a6adc8;font-size:11px;';
+  audioOptions.append(audioNote);
+
   const buttonRow = document.createElement('div');
   buttonRow.style.cssText = 'display:flex;gap:8px;margin-top:12px;';
 
@@ -83,7 +115,7 @@
   const status = document.createElement('p');
   status.style.cssText = 'margin:10px 0 0;color:#a6adc8;font-size:12px;min-height:16px;';
 
-  panel.append(header, buttonRow, status);
+  panel.append(header, audioOptions, buttonRow, status);
   document.body.appendChild(panel);
 
   let recording = false;
@@ -105,8 +137,11 @@
   function render() {
     screenshotButton.disabled = busy;
     recordButton.disabled = busy;
+    tabAudioCheckbox.disabled = busy || recording;
+    microphoneCheckbox.disabled = busy || recording;
     screenshotButton.style.opacity = busy ? '0.6' : '1';
     recordButton.style.opacity = busy ? '0.6' : '1';
+    audioOptions.style.opacity = recording ? '0.7' : '1';
     recordButton.textContent = recording ? '⏹ Dừng ghi' : '⏺ Ghi hình';
     recordButton.style.background = recording ? '#b42318' : '#313244';
     recordButton.style.borderColor = recording ? '#b42318' : '#45475a';
@@ -180,9 +215,15 @@
     }
 
     setStatus('Đang bắt đầu ghi…');
-    const response = await send({ type: 'tabCapture:startRecording' });
+    const response = await send({
+      type: 'tabCapture:startRecording',
+      includeTabAudio: tabAudioCheckbox.checked,
+      includeMicrophone: microphoneCheckbox.checked,
+    });
     recording = true;
     startedAt = response.startedAt;
+    tabAudioCheckbox.checked = response.includeTabAudio !== false;
+    microphoneCheckbox.checked = response.includeMicrophone === true;
     setStatus('Đang ghi 00:00…');
   }));
 
@@ -192,11 +233,13 @@
     .then((state) => {
       recording = Boolean(state.recording);
       startedAt = state.startedAt ?? null;
+      tabAudioCheckbox.checked = state.includeTabAudio !== false;
+      microphoneCheckbox.checked = state.includeMicrophone === true;
       render();
       if (recording) {
         setStatus(`Đang ghi ${formatElapsed(Date.now() - (startedAt ?? Date.now()))}…`);
       } else {
-        setStatus('Chụp ảnh vùng đang xem hoặc ghi hình kèm âm thanh của tab.');
+        setStatus('Chụp ảnh vùng đang xem hoặc ghi hình với âm thanh tab/microphone.');
       }
     })
     .catch((error) => {

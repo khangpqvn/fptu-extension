@@ -17,48 +17,111 @@ const MIME_CANDIDATES = [
 let recorder = null;
 let chunks = [];
 let audioContext = null;
+let recordingStreams = [];
+let recordingStream = null;
+let audioDestination = null;
 const blobUrls = new Set();
 
 function pickMimeType() {
   return MIME_CANDIDATES.find((type) => MediaRecorder.isTypeSupported(type)) || '';
 }
 
-async function startRecording(streamId) {
+function tabConstraint(streamId) {
+  return {
+    mandatory: {
+      chromeMediaSource: 'tab',
+      chromeMediaSourceId: streamId,
+    },
+  };
+}
+
+async function cleanupRecording() {
+  recordingStreams.forEach((stream) => {
+    stream.getTracks().forEach((track) => track.stop());
+  });
+  recordingStreams = [];
+  recordingStream?.getTracks().forEach((track) => track.stop());
+  recordingStream = null;
+  audioDestination?.stream.getTracks().forEach((track) => track.stop());
+  audioDestination = null;
+
+  const context = audioContext;
+  audioContext = null;
+  if (context && context.state !== 'closed') {
+    await context.close().catch(() => {});
+  }
+
+  recorder = null;
+  chunks = [];
+  location.hash = '';
+}
+
+function setRecordingHash(startedAt, includeTabAudio, includeMicrophone) {
+  const audioMode = `${includeTabAudio ? '1' : '0'}${includeMicrophone ? '1' : '0'}`;
+  location.hash = `recording:${startedAt}:${audioMode}`;
+}
+
+async function startRecording(streamId, includeTabAudio, includeMicrophone) {
   if (recorder) {
     throw new Error('Đang có một phiên ghi hình khác.');
   }
 
-  const constraint = (source) => ({
-    mandatory: {
-      chromeMediaSource: source,
-      chromeMediaSourceId: streamId,
-    },
-  });
+  let tabStream;
+  let microphoneStream;
+  try {
+    tabStream = await navigator.mediaDevices.getUserMedia({
+      audio: includeTabAudio ? tabConstraint(streamId) : false,
+      video: tabConstraint(streamId),
+    });
+    recordingStreams.push(tabStream);
 
-  const stream = await navigator.mediaDevices.getUserMedia({
-    audio: constraint('tab'),
-    video: constraint('tab'),
-  });
-
-  // getUserMedia on a tab stream mutes the tab, so route the audio back out.
-  audioContext = new AudioContext();
-  audioContext.createMediaStreamSource(stream).connect(audioContext.destination);
-
-  const mimeType = pickMimeType();
-  recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
-  chunks = [];
-  recorder.ondataavailable = (event) => {
-    if (event.data.size) {
-      chunks.push(event.data);
+    if (includeMicrophone) {
+      try {
+        microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (error) {
+        throw new Error('Không thể dùng microphone. Hãy cấp quyền microphone rồi thử lại.');
+      }
+      recordingStreams.push(microphoneStream);
     }
-  };
-  recorder.start();
 
-  // The service worker can be terminated mid-recording, so the state lives in
-  // this document's URL where getContexts() can read it back.
-  const startedAt = Date.now();
-  location.hash = `recording:${startedAt}`;
-  return { startedAt };
+    recordingStream = new MediaStream(tabStream.getVideoTracks());
+    if (includeTabAudio || includeMicrophone) {
+      audioContext = new AudioContext();
+      audioDestination = audioContext.createMediaStreamDestination();
+
+      if (includeTabAudio && tabStream.getAudioTracks().length) {
+        const tabSource = audioContext.createMediaStreamSource(tabStream);
+        tabSource.connect(audioDestination);
+        // getUserMedia on a tab stream mutes the tab, so route only tab audio
+        // back to the speakers. Never play the microphone to avoid feedback.
+        tabSource.connect(audioContext.destination);
+      }
+
+      if (includeMicrophone && microphoneStream?.getAudioTracks().length) {
+        const microphoneSource = audioContext.createMediaStreamSource(microphoneStream);
+        microphoneSource.connect(audioDestination);
+      }
+
+      audioDestination.stream.getAudioTracks().forEach((track) => recordingStream.addTrack(track));
+    }
+
+    const mimeType = pickMimeType();
+    recorder = new MediaRecorder(recordingStream, mimeType ? { mimeType } : undefined);
+    chunks = [];
+    recorder.ondataavailable = (event) => {
+      if (event.data.size) {
+        chunks.push(event.data);
+      }
+    };
+    recorder.start();
+
+    const startedAt = Date.now();
+    setRecordingHash(startedAt, includeTabAudio, includeMicrophone);
+    return { startedAt, includeTabAudio, includeMicrophone };
+  } catch (error) {
+    await cleanupRecording();
+    throw error;
+  }
 }
 
 function stopRecording() {
@@ -70,17 +133,27 @@ function stopRecording() {
   const mimeType = activeRecorder.mimeType || 'video/webm';
 
   return new Promise((resolve, reject) => {
-    activeRecorder.onerror = (event) => reject(event.error || new Error('Ghi hình thất bại.'));
-    activeRecorder.onstop = () => {
-      // Stopping the tracks also clears the tab's recording indicator.
-      activeRecorder.stream.getTracks().forEach((track) => track.stop());
-      audioContext?.close();
-      audioContext = null;
-      recorder = null;
-      location.hash = '';
+    let settled = false;
+    const fail = async (error) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      await cleanupRecording();
+      reject(error);
+    };
 
-      const url = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
-      chunks = [];
+    activeRecorder.onerror = (event) => {
+      fail(event.error || new Error('Ghi hình thất bại.'));
+    };
+    activeRecorder.onstop = async () => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      const blob = new Blob(chunks, { type: mimeType });
+      await cleanupRecording();
+      const url = URL.createObjectURL(blob);
       blobUrls.add(url);
       resolve({ url, mimeType });
     };
@@ -111,7 +184,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 
   const handlers = {
-    'tabCapture:offscreenStart': () => startRecording(message.streamId),
+    'tabCapture:offscreenStart': () => startRecording(
+      message.streamId,
+      message.includeTabAudio,
+      message.includeMicrophone,
+    ),
     'tabCapture:offscreenStop': () => stopRecording(),
     'tabCapture:offscreenBlobUrl': () => createBlobUrl(message.dataUrl),
     'tabCapture:offscreenRelease': () => {

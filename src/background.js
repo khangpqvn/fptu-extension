@@ -91,11 +91,23 @@ function timestamp() {
 async function getRecordingState() {
   const context = await getOffscreenContext();
   const hash = context?.documentUrl?.split('#')[1] ?? '';
-  const [marker, startedAt] = hash.split(':');
-  if (marker !== 'recording') {
-    return { recording: false, startedAt: null };
+  const [marker, startedAtValue, audioMode] = hash.split(':');
+  const startedAt = Number(startedAtValue);
+  if (marker !== 'recording' || !Number.isFinite(startedAt) || startedAt <= 0) {
+    return {
+      recording: false,
+      startedAt: null,
+      includeTabAudio: true,
+      includeMicrophone: false,
+    };
   }
-  return { recording: true, startedAt: Number(startedAt) || null };
+
+  return {
+    recording: true,
+    startedAt,
+    includeTabAudio: audioMode?.[0] !== '0',
+    includeMicrophone: audioMode?.[1] === '1',
+  };
 }
 
 /**
@@ -147,16 +159,27 @@ async function captureScreenshot(tabId) {
   return download(url, `tab-capture/screenshot-${timestamp()}.png`);
 }
 
-async function startRecording(tabId) {
-  const { recording, startedAt } = await getRecordingState();
-  if (recording) {
-    return { startedAt };
+async function startRecording(tabId, options) {
+  const state = await getRecordingState();
+  if (state.recording) {
+    return state;
   }
 
+  const includeTabAudio = options?.includeTabAudio !== false;
+  const includeMicrophone = options?.includeMicrophone === true;
   await ensureOffscreenDocument();
   const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId: tabId });
-  const response = await sendToOffscreen({ type: 'tabCapture:offscreenStart', streamId });
-  return { startedAt: response.startedAt };
+  const response = await sendToOffscreen({
+    type: 'tabCapture:offscreenStart',
+    streamId,
+    includeTabAudio,
+    includeMicrophone,
+  });
+  return {
+    startedAt: response.startedAt,
+    includeTabAudio: response.includeTabAudio,
+    includeMicrophone: response.includeMicrophone,
+  };
 }
 
 async function stopRecording() {
@@ -196,7 +219,7 @@ function resolveHandler(message, sender) {
     case 'tabCapture:screenshot':
       return senderTabId ? () => captureScreenshot(senderTabId) : null;
     case 'tabCapture:startRecording':
-      return senderTabId ? () => startRecording(senderTabId) : null;
+      return senderTabId ? () => startRecording(senderTabId, message) : null;
     case 'tabCapture:stopRecording':
       return () => stopRecording();
     default:
