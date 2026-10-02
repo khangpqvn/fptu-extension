@@ -171,11 +171,14 @@ Auto-run actions never appear in the popup. Actions without the `auto` field beh
 The `tab-capture` action is registered under the `*` domain route, so it appears on every HTTP and HTTPS page. Clicking it opens a floating panel with two controls and two audio options:
 
 - **Âm thanh tab** is enabled by default and records the active tab's audio.
-- **Microphone** is disabled by default. Enabling it asks Chrome for microphone permission and mixes microphone audio into the recording. Both options can be enabled together, or both can be disabled for a silent video.
+- **Microphone** is disabled by default. Enabling it mixes microphone audio into the recording. On first use, Chrome opens a small extension window where you must click **Cho phép microphone**; after allowing it, return to the tab and click **Ghi hình** again. Both options can be enabled together, or both can be disabled for a silent video.
 - **Chụp ảnh** hides the panel for one frame, calls `chrome.tabs.captureVisibleTab`, and downloads `tab-capture/screenshot-<timestamp>.png`.
-- **Ghi hình** records the tab's video with the selected audio sources, then downloads `tab-capture/recording-<timestamp>.webm` when stopped.
+- **Ghi hình** starts the selected capture sources, then collapses the settings into a compact floating controller.
+- The floating panel and compact controller have a drag handle so they can be moved to a less obstructive area. The position is kept for the current page session and is constrained to the visible viewport. Because the dock is displayed in the captured tab, move it outside the area being recorded when possible.
+- The compact controller shows the recorded duration plus icon buttons to take a viewport screenshot, **Pause/Resume** and **Stop**. Paused time is excluded from the duration, and tab audio continues playing while the recording is paused. Full-page capture is unavailable while recording so the video is not affected by page movement.
+- **Stop** downloads `tab-capture/recording-<timestamp>.webm` and restores the settings panel after the download completes.
 
-Recording runs in the offscreen document, so it survives closing the panel and navigating within the tab. Captured tab audio is routed back through an `AudioContext` so the user keeps hearing the page while it records; microphone audio is not played through the speakers to prevent feedback. The offscreen document stores its state in its own URL hash, which lets the service worker report the live recording state after being terminated, so reopening the panel shows the running timer, selected audio options and a working stop button. If microphone permission is denied, the recording does not start and the panel displays an error.
+Recording runs in the offscreen document, so it survives closing the panel and navigating within the tab. Captured tab audio is routed back through an `AudioContext` so the user keeps hearing the page while it records; microphone audio is not played through the speakers to prevent feedback. The offscreen document stores active or paused recording metadata in its own URL hash, which lets the service worker report the live state after being terminated. Reopening the panel restores the compact controller, recorded duration, selected audio options and working Pause/Resume or Stop controls. If microphone permission is denied, the recording does not start and the panel displays an error.
 
 Clicking the shortcut again while the panel is open closes the panel; it does not stop an active recording.
 

@@ -34,6 +34,27 @@ function executeAction(actionId, tabId) {
 // =========================
 
 let creatingOffscreenDocument = null;
+let microphonePermissionWindowId = null;
+
+async function openMicrophonePermissionWindow() {
+  if (microphonePermissionWindowId !== null) {
+    try {
+      await chrome.windows.update(microphonePermissionWindowId, { focused: true });
+      return;
+    } catch (_) {
+      microphonePermissionWindowId = null;
+    }
+  }
+
+  const permissionWindow = await chrome.windows.create({
+    url: chrome.runtime.getURL('microphone-permission.html'),
+    type: 'popup',
+    width: 420,
+    height: 280,
+    focused: true,
+  });
+  microphonePermissionWindowId = permissionWindow.id ?? null;
+}
 
 /**
  * Matched on the URL prefix rather than through the documentUrls filter, because
@@ -84,29 +105,52 @@ function timestamp() {
     + `-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
 }
 
+function getIdleRecordingState() {
+  return {
+    recording: false,
+    paused: false,
+    startedAt: null,
+    includeTabAudio: true,
+    includeMicrophone: false,
+    pausedAt: null,
+    pausedDurationMs: 0,
+    elapsedMs: 0,
+  };
+}
+
 /**
- * The offscreen document writes "#recording:<startedAt>" into its own URL, which
+ * The offscreen document writes recording metadata into its own URL hash, which
  * survives service worker termination unlike an in-memory variable.
  */
 async function getRecordingState() {
   const context = await getOffscreenContext();
   const hash = context?.documentUrl?.split('#')[1] ?? '';
-  const [marker, startedAtValue, audioMode] = hash.split(':');
+  const [marker, startedAtValue, audioMode, status = 'active', pausedAtValue = '0', pausedDurationValue = '0'] = hash.split(':');
   const startedAt = Number(startedAtValue);
-  if (marker !== 'recording' || !Number.isFinite(startedAt) || startedAt <= 0) {
-    return {
-      recording: false,
-      startedAt: null,
-      includeTabAudio: true,
-      includeMicrophone: false,
-    };
+  const pausedAt = Number(pausedAtValue);
+  const pausedDurationMs = Number(pausedDurationValue);
+  const paused = status === 'paused';
+
+  if (marker !== 'recording'
+    || !Number.isFinite(startedAt)
+    || startedAt <= 0
+    || !['active', 'paused'].includes(status)
+    || !Number.isFinite(pausedDurationMs)
+    || pausedDurationMs < 0
+    || (paused && (!Number.isFinite(pausedAt) || pausedAt <= 0))) {
+    return getIdleRecordingState();
   }
 
+  const currentPauseMs = paused ? Date.now() - pausedAt : 0;
   return {
     recording: true,
+    paused,
     startedAt,
     includeTabAudio: audioMode?.[0] !== '0',
     includeMicrophone: audioMode?.[1] === '1',
+    pausedAt: paused ? pausedAt : null,
+    pausedDurationMs,
+    elapsedMs: Math.max(0, Date.now() - startedAt - pausedDurationMs - currentPauseMs),
   };
 }
 
@@ -143,7 +187,13 @@ async function download(url, filename) {
     const downloadId = await chrome.downloads.download({ url, filename });
     await waitForDownload(downloadId);
   } finally {
-    await sendToOffscreen({ type: 'tabCapture:offscreenRelease', url }).catch(() => {});
+    // Do not recreate an offscreen document solely to release a URL from one
+    // that has already closed. A new document cannot own that URL.
+    await chrome.runtime.sendMessage({
+      target: 'offscreen',
+      type: 'tabCapture:offscreenRelease',
+      url,
+    }).catch(() => {});
   }
   return { filename };
 }
@@ -168,18 +218,37 @@ async function startRecording(tabId, options) {
   const includeTabAudio = options?.includeTabAudio !== false;
   const includeMicrophone = options?.includeMicrophone === true;
   await ensureOffscreenDocument();
+  if (includeMicrophone) {
+    const permission = await sendToOffscreen({
+      type: 'tabCapture:offscreenMicrophonePermission',
+    });
+    if (permission.state !== 'granted') {
+      await openMicrophonePermissionWindow();
+      return {
+        ...getIdleRecordingState(),
+        requiresMicrophonePermission: true,
+      };
+    }
+  }
   const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId: tabId });
-  const response = await sendToOffscreen({
+  return sendToOffscreen({
     type: 'tabCapture:offscreenStart',
     streamId,
     includeTabAudio,
     includeMicrophone,
   });
-  return {
-    startedAt: response.startedAt,
-    includeTabAudio: response.includeTabAudio,
-    includeMicrophone: response.includeMicrophone,
-  };
+}
+
+function pauseRecording() {
+  // The offscreen document owns MediaRecorder, so it validates the current
+  // recorder state instead of relying on a potentially stale URL-hash read.
+  return sendToOffscreen({ type: 'tabCapture:offscreenPause' });
+}
+
+function resumeRecording() {
+  // The offscreen document owns MediaRecorder, so it validates the current
+  // recorder state instead of relying on a potentially stale URL-hash read.
+  return sendToOffscreen({ type: 'tabCapture:offscreenResume' });
 }
 
 async function stopRecording() {
@@ -212,6 +281,16 @@ function resolveHandler(message, sender) {
     return () => executeAction(message.actionId, message.tabId);
   }
 
+  if (message.type === 'tabCapture:microphonePermissionGranted') {
+    return async () => {
+      if (microphonePermissionWindowId !== null) {
+        await chrome.windows.remove(microphonePermissionWindowId).catch(() => {});
+        microphonePermissionWindowId = null;
+      }
+      return {};
+    };
+  }
+
   const senderTabId = sender?.tab?.id;
   switch (message.type) {
     case 'tabCapture:getState':
@@ -220,6 +299,10 @@ function resolveHandler(message, sender) {
       return senderTabId ? () => captureScreenshot(senderTabId) : null;
     case 'tabCapture:startRecording':
       return senderTabId ? () => startRecording(senderTabId, message) : null;
+    case 'tabCapture:pauseRecording':
+      return () => pauseRecording();
+    case 'tabCapture:resumeRecording':
+      return () => resumeRecording();
     case 'tabCapture:stopRecording':
       return () => stopRecording();
     default:

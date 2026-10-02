@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quyền microphone</title>
+  <style>
+    body { margin: 0; padding: 24px; color: #cdd6f4; background: #1e1e2e; font: 14px/1.5 Arial, sans-serif; }
+    h1 { margin: 0 0 12px; font-size: 18px; color: #f5c2e7; }
+    p { margin: 8px 0; }
+    button { margin-top: 14px; padding: 9px 14px; border: 1px solid #45475a; border-radius: 6px; color: #cdd6f4; background: #313244; font-weight: 600; cursor: pointer; }
+    #status { min-height: 22px; color: #a6adc8; }
+  </style>
+</head>
+<body>
+  <h1>Cho phép dùng microphone</h1>
+  <p>Tiện ích cần microphone để trộn giọng nói vào video tab.</p>
+  <button id="allow" type="button">Cho phép microphone</button>
+  <p id="status" role="status"></p>
+  <script src="microphone-permission.js"></script>
+</body>
+</html>

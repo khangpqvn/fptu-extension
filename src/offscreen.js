@@ -8,11 +8,18 @@
  * The recording state is mirrored into location.hash so the service worker can
  * recover it after being terminated mid-recording.
  */
-const MIME_CANDIDATES = [
-  'video/webm;codecs=vp9,opus',
-  'video/webm;codecs=vp8,opus',
-  'video/webm',
-];
+const MIME_CANDIDATES = {
+  audio: [
+    'video/webm;codecs=vp9,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm',
+  ],
+  videoOnly: [
+    'video/webm;codecs=vp9',
+    'video/webm;codecs=vp8',
+    'video/webm',
+  ],
+};
 
 let recorder = null;
 let chunks = [];
@@ -20,10 +27,12 @@ let audioContext = null;
 let recordingStreams = [];
 let recordingStream = null;
 let audioDestination = null;
+let recordingMetadata = null;
 const blobUrls = new Set();
 
-function pickMimeType() {
-  return MIME_CANDIDATES.find((type) => MediaRecorder.isTypeSupported(type)) || '';
+function pickMimeType(hasAudio) {
+  const candidates = hasAudio ? MIME_CANDIDATES.audio : MIME_CANDIDATES.videoOnly;
+  return candidates.find((type) => MediaRecorder.isTypeSupported(type)) || '';
 }
 
 function tabConstraint(streamId) {
@@ -32,6 +41,32 @@ function tabConstraint(streamId) {
       chromeMediaSource: 'tab',
       chromeMediaSourceId: streamId,
     },
+  };
+}
+
+function getElapsedMs(metadata = recordingMetadata) {
+  if (!metadata) {
+    return 0;
+  }
+
+  const currentPauseMs = metadata.paused ? Date.now() - metadata.pausedAt : 0;
+  return Math.max(0, Date.now() - metadata.startedAt - metadata.pausedDurationMs - currentPauseMs);
+}
+
+function getRecordingMetadata() {
+  if (!recordingMetadata) {
+    return { recording: false };
+  }
+
+  return {
+    recording: true,
+    paused: recordingMetadata.paused,
+    startedAt: recordingMetadata.startedAt,
+    includeTabAudio: recordingMetadata.includeTabAudio,
+    includeMicrophone: recordingMetadata.includeMicrophone,
+    pausedAt: recordingMetadata.pausedAt,
+    pausedDurationMs: recordingMetadata.pausedDurationMs,
+    elapsedMs: getElapsedMs(),
   };
 }
 
@@ -53,12 +88,21 @@ async function cleanupRecording() {
 
   recorder = null;
   chunks = [];
+  recordingMetadata = null;
   location.hash = '';
 }
 
-function setRecordingHash(startedAt, includeTabAudio, includeMicrophone) {
+function setRecordingHash() {
+  const {
+    startedAt,
+    includeTabAudio,
+    includeMicrophone,
+    paused,
+    pausedAt,
+    pausedDurationMs,
+  } = recordingMetadata;
   const audioMode = `${includeTabAudio ? '1' : '0'}${includeMicrophone ? '1' : '0'}`;
-  location.hash = `recording:${startedAt}:${audioMode}`;
+  location.hash = `recording:${startedAt}:${audioMode}:${paused ? 'paused' : 'active'}:${pausedAt || 0}:${pausedDurationMs}`;
 }
 
 async function startRecording(streamId, includeTabAudio, includeMicrophone) {
@@ -105,7 +149,7 @@ async function startRecording(streamId, includeTabAudio, includeMicrophone) {
       audioDestination.stream.getAudioTracks().forEach((track) => recordingStream.addTrack(track));
     }
 
-    const mimeType = pickMimeType();
+    const mimeType = pickMimeType(recordingStream.getAudioTracks().length > 0);
     recorder = new MediaRecorder(recordingStream, mimeType ? { mimeType } : undefined);
     chunks = [];
     recorder.ondataavailable = (event) => {
@@ -115,17 +159,49 @@ async function startRecording(streamId, includeTabAudio, includeMicrophone) {
     };
     recorder.start();
 
-    const startedAt = Date.now();
-    setRecordingHash(startedAt, includeTabAudio, includeMicrophone);
-    return { startedAt, includeTabAudio, includeMicrophone };
+    recordingMetadata = {
+      startedAt: Date.now(),
+      includeTabAudio,
+      includeMicrophone,
+      paused: false,
+      pausedAt: null,
+      pausedDurationMs: 0,
+    };
+    setRecordingHash();
+    return getRecordingMetadata();
   } catch (error) {
     await cleanupRecording();
     throw error;
   }
 }
 
+function pauseRecording() {
+  if (!recorder || recorder.state !== 'recording' || !recordingMetadata) {
+    throw new Error('Phiên ghi hình không thể tạm dừng.');
+  }
+
+  recorder.pause();
+  recordingMetadata.paused = true;
+  recordingMetadata.pausedAt = Date.now();
+  setRecordingHash();
+  return getRecordingMetadata();
+}
+
+function resumeRecording() {
+  if (!recorder || recorder.state !== 'paused' || !recordingMetadata?.pausedAt) {
+    throw new Error('Phiên ghi hình không thể tiếp tục.');
+  }
+
+  recorder.resume();
+  recordingMetadata.pausedDurationMs += Date.now() - recordingMetadata.pausedAt;
+  recordingMetadata.paused = false;
+  recordingMetadata.pausedAt = null;
+  setRecordingHash();
+  return getRecordingMetadata();
+}
+
 function stopRecording() {
-  if (!recorder) {
+  if (!recorder || !['recording', 'paused'].includes(recorder.state)) {
     throw new Error('Chưa bắt đầu ghi hình.');
   }
 
@@ -157,7 +233,11 @@ function stopRecording() {
       blobUrls.add(url);
       resolve({ url, mimeType });
     };
-    activeRecorder.stop();
+    try {
+      activeRecorder.stop();
+    } catch (error) {
+      fail(error);
+    }
   });
 }
 
@@ -178,6 +258,11 @@ function releaseUrl(url) {
   }
 }
 
+async function getMicrophonePermission() {
+  const permission = await navigator.permissions.query({ name: 'microphone' });
+  return { state: permission.state };
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.target !== 'offscreen') {
     return undefined;
@@ -189,8 +274,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       message.includeTabAudio,
       message.includeMicrophone,
     ),
+    'tabCapture:offscreenPause': () => pauseRecording(),
+    'tabCapture:offscreenResume': () => resumeRecording(),
     'tabCapture:offscreenStop': () => stopRecording(),
     'tabCapture:offscreenBlobUrl': () => createBlobUrl(message.dataUrl),
+    'tabCapture:offscreenMicrophonePermission': () => getMicrophonePermission(),
     'tabCapture:offscreenRelease': () => {
       releaseUrl(message.url);
       return {};
