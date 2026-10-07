@@ -73,6 +73,36 @@
       description.textContent = 'Chọn các số thứ tự cần bỏ qua, sau đó chuyển đến Assignment để chạy.';
       description.style.cssText = 'margin:8px 0 16px;color:#667085;font-size:13px;line-height:1.4;';
 
+      const statusOptions = [
+        { value: '9', label: 'Pass' },
+        { value: '8', label: 'Reject' },
+        { value: '5', label: 'Draft' },
+      ];
+      let selectedStatus = statusOptions[0];
+      const statusField = document.createElement('fieldset');
+      statusField.style.cssText = 'margin:12px 0 0;padding:0;border:0;';
+      const statusLegend = document.createElement('legend');
+      statusLegend.textContent = 'Trạng thái duyệt bài';
+      statusLegend.style.cssText = 'padding:0;margin-bottom:6px;font-weight:600;';
+      statusField.appendChild(statusLegend);
+
+      statusOptions.forEach((status) => {
+        const label = document.createElement('label');
+        label.style.cssText = 'display:inline-flex;align-items:center;gap:4px;margin-right:16px;cursor:pointer;';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `${POPUP_ID}-status`;
+        input.value = status.value;
+        input.checked = status === selectedStatus;
+        input.addEventListener('change', () => {
+          if (input.checked) {
+            selectedStatus = status;
+          }
+        });
+        label.append(input, status.label);
+        statusField.appendChild(label);
+      });
+
       const mode = document.createElement('select');
       mode.style.cssText = [
         'box-sizing:border-box',
@@ -185,6 +215,7 @@
       form.append(
         title,
         description,
+        statusField,
         createFieldLabel('Cách chọn số cần bỏ qua', mode),
         rangeStartField,
         rangeEndField,
@@ -219,13 +250,14 @@
         log.hidden = false;
         log.style.display = 'block';
         submitButton.disabled = true;
+        statusField.disabled = true;
         mode.disabled = true;
         rangeStartInput.disabled = true;
         rangeEndInput.disabled = true;
         listInput.disabled = true;
         cancelButton.disabled = true;
         writeLog('Đã nhận cấu hình. Bắt đầu xử lý...');
-        resolve({ ignoredNumbers: value, writeLog });
+        resolve({ ignoredNumbers: value, status: selectedStatus, writeLog });
       };
 
       cancelButton.addEventListener('click', () => finish(null));
@@ -374,7 +406,7 @@
     return null;
   }
 
-  async function run(listNumberIgnore, writeLog) {
+  async function run(listNumberIgnore, status, writeLog) {
     writeLog('Đang chuyển đến route #assignment...');
     await navigateToAssignment();
     writeLog('Đã tải xong route #assignment.');
@@ -413,16 +445,16 @@
           continue;
         }
 
-        statusSelect.value = '9';
+        statusSelect.value = status.value;
         statusSelect.dispatchEvent(new windowRef.Event('change', { bubbles: true }));
         await sleep(200);
 
-        if (statusSelect.value !== '9') {
-          writeLog(`Không thể chuyển bài ${stt} sang Passed.`);
+        if (statusSelect.value !== status.value) {
+          writeLog(`Không thể chuyển bài ${stt} sang ${status.label}.`);
           continue;
         }
 
-        writeLog(`Đã chuyển bài ${stt} sang Passed.`);
+        writeLog(`Đã chuyển bài ${stt} sang ${status.label}.`);
 
         const submitButton = windowRef.document.querySelector('#btnSubmit');
         if (!submitButton) {
@@ -451,7 +483,7 @@
   showIgnoreForm()
     .then((result) => {
       if (result) {
-        return run(result.ignoredNumbers, result.writeLog);
+        return run(result.ignoredNumbers, result.status, result.writeLog);
       }
       return null;
     })

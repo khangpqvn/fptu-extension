@@ -166,6 +166,10 @@ Auto-run actions never appear in the popup. Actions without the `auto` field beh
 
 `minimum_chrome_version` is `116`, the first release where a service worker can create a `tabCapture` stream ID that an offscreen document consumes.
 
+## Assignment status
+
+The `ct-auto-approve` action opens a configuration popup with status radio buttons: **Pass** (`9`, selected by default), **Reject** (`8`), and **Draft** (`5`). The selected status is applied to each assignment that is not excluded by the skip settings. Status controls are disabled once processing starts, and the log names the selected status.
+
 ## Tab capture
 
 The `tab-capture` action is registered under the `*` domain route, so it appears on every HTTP and HTTPS page. Clicking it opens a floating panel with two controls and two audio options:
