@@ -166,6 +166,10 @@ Auto-run actions never appear in the popup. Actions without the `auto` field beh
 
 `minimum_chrome_version` is `116`, the first release where a service worker can create a `tabCapture` stream ID that an offscreen document consumes.
 
+## Attendance completion
+
+The `fap-attendance` popup includes **Tự động bấm Hoàn tất điểm danh và xác nhận**, checked by default. Uncheck it to fill attendance without clicking either the completion button or its confirmation, so you can review and complete manually. This setting applies to both attendance by Roll Number and **Điểm danh toàn bộ**, and is disabled while processing.
+
 ## Assignment status
 
 The `ct-auto-approve` action opens a configuration popup with status radio buttons: **Pass** (`9`, selected by default), **Reject** (`8`), and **Draft** (`5`). The selected status is applied to each assignment that is not excluded by the skip settings. Status controls are disabled once processing starts, and the log names the selected status.

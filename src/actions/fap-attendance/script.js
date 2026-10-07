@@ -111,6 +111,22 @@ SE22xxxx"
                     "
                 ></textarea>
 
+                <label style="
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    margin-top:12px;
+                    font-size:13px;
+                    cursor:pointer;
+                ">
+                    <input
+                        id="__attendance_auto_complete"
+                        type="checkbox"
+                        checked
+                    >
+                    Tự động bấm Hoàn tất điểm danh và xác nhận
+                </label>
+
                 <div style="
                     display:flex;
                     gap:8px;
@@ -191,6 +207,10 @@ SE22xxxx"
 
   const input = document.getElementById(
     "__attendance_roll_input"
+  );
+
+  const autoCompleteInput = document.getElementById(
+    "__attendance_auto_complete"
   );
 
   const executeBtn = document.getElementById(
@@ -372,6 +392,12 @@ SE22xxxx"
 
   async function saveAttendance() {
 
+    if (!autoCompleteInput.checked) {
+      status.textContent +=
+        "\n\nChưa bấm Hoàn tất điểm danh. Bạn có thể kiểm tra và hoàn tất thủ công.";
+      return;
+    }
+
     await new Promise(resolve =>
       setTimeout(resolve, 500)
     );
@@ -448,6 +474,7 @@ SE22xxxx"
 
     executeBtn.disabled = true;
     allBtn.disabled = true;
+    autoCompleteInput.disabled = true;
     executeBtn.textContent = "Đang xử lý...";
 
 
@@ -563,6 +590,7 @@ SE22xxxx"
 
     executeBtn.disabled = false;
     allBtn.disabled = false;
+    autoCompleteInput.disabled = false;
     executeBtn.textContent = "Điểm danh";
   };
 
@@ -595,6 +623,7 @@ SE22xxxx"
 
     executeBtn.disabled = true;
     allBtn.disabled = true;
+    autoCompleteInput.disabled = true;
     allBtn.textContent = "Đang điểm danh...";
 
 
@@ -640,6 +669,7 @@ SE22xxxx"
 
     executeBtn.disabled = false;
     allBtn.disabled = false;
+    autoCompleteInput.disabled = false;
     allBtn.textContent = "✓ Điểm danh toàn bộ";
   };
 
