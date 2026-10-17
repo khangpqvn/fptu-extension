@@ -57,7 +57,7 @@
           ]
         },
         {
-          "endpoint": "/Grade/StudentTranscript.aspx",
+          "endpoint": "/LecturerStudentLookup/Transcript/*",
           "actions": [
             "fap-grade-average"
           ]
